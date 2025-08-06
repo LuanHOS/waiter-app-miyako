@@ -3,13 +3,40 @@
     x:Class="waiter_app_miyako.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:waiter_app_miyako"
+    xmlns:views="clr-namespace:waiter_app_miyako.Views"
     Shell.FlyoutBehavior="Disabled"
-    Title="waiter_app_miyako">
+    Title="Miyako Sushi">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <ShellContent
+            Title="Início"
+            ContentTemplate="{DataTemplate views:HomePage}"
+            Route="HomePage"
+            Icon="home_icon.svg" />
+
+        <ShellContent
+            Title="Pedidos"
+            ContentTemplate="{DataTemplate views:PedidosPage}"
+            Route="PedidosPage"
+            Icon="pedidos_icon.svg" />
+
+        <ShellContent
+            Title="Cardápio"
+            ContentTemplate="{DataTemplate views:CardapioPage}"
+            Route="CardapioPage"
+            Icon="add_icon.svg" />
+
+        <ShellContent
+            Title="Perfil"
+            ContentTemplate="{DataTemplate views:PerfilPage}"
+            Route="PerfilPage"
+            Icon="perfil_icon.svg" />
+
+        <ShellContent
+            Title="Ajustes"
+            ContentTemplate="{DataTemplate views:ConfiguracoesPage}"
+            Route="ConfiguracoesPage"
+            Icon="settings_icon.svg" />
+    </TabBar>
 
 </Shell>
