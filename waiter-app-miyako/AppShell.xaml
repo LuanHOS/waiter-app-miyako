@@ -7,21 +7,38 @@
     Shell.FlyoutBehavior="Disabled"
     Title="Miyako Sushi">
 
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid RowDefinitions="Auto,Auto" RowSpacing="2" Padding="0,5,0,5" VerticalOptions="Center">
+                <Image Grid.Row="0"
+                       Source="{Binding Icon}"
+                       HeightRequest="35"
+                       WidthRequest="35"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
+                <Label Grid.Row="1"
+                       Text="{Binding Title}"
+                       FontSize="10"
+                       HorizontalOptions="Center" />
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
     <TabBar>
         <ShellContent
             Title="Início"
             ContentTemplate="{DataTemplate views:HomePage}"
             Route="HomePage"
-            Icon="home_icon.svg" />
+            Icon="home_icon.png" />
 
         <ShellContent
             Title="Pedidos"
             ContentTemplate="{DataTemplate views:PedidosPage}"
             Route="PedidosPage"
-            Icon="pedidos_icon.svg" />
+            Icon="pedidos_icon.png" />
 
         <ShellContent
-            Title="Cardápio"
+            Title="Novo Pedido"
             ContentTemplate="{DataTemplate views:CardapioPage}"
             Route="CardapioPage"
             Icon="add_icon.svg" />
@@ -30,13 +47,13 @@
             Title="Perfil"
             ContentTemplate="{DataTemplate views:PerfilPage}"
             Route="PerfilPage"
-            Icon="perfil_icon.svg" />
+            Icon="perfil_icon.png" />
 
         <ShellContent
             Title="Ajustes"
             ContentTemplate="{DataTemplate views:ConfiguracoesPage}"
             Route="ConfiguracoesPage"
-            Icon="settings_icon.svg" />
+            Icon="settings_icon.png" />
     </TabBar>
 
 </Shell>
