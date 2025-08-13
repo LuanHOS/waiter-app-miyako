@@ -44,6 +44,6 @@
     <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
 
     <!-- Minhas adições: -->
-    <Color x:Key="LoginButtonRed">#C0392B</Color>
+    <Color x:Key="Red">#C0392B</Color>
 
 </ResourceDictionary>

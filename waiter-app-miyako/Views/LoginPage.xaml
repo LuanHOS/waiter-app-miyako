@@ -80,7 +80,7 @@
                 </VerticalStackLayout>
 
                 <Button Text="ACESSAR"
-                        BackgroundColor="{StaticResource LoginButtonRed}"
+                        BackgroundColor="{StaticResource Red}"
                         TextColor="White"
                         CornerRadius="25"
                         HeightRequest="50"
