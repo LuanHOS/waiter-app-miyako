@@ -3,10 +3,133 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="waiter_app_miyako.Views.CardapioPage"
              Title="CARDÁPIO">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <Grid RowDefinitions="Auto, *">
+
+        <Grid Grid.Row="0" Padding="10" ColumnSpacing="10" RowSpacing="10" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
+            <Button Grid.Row="0" Grid.Column="0" Text="BARCAS" Clicked="OnNavegarParaSessaoClicked" CommandParameter="{x:Reference BarcasTitle}"/>
+            <Button Grid.Row="0" Grid.Column="1" Text="SUSHIS" Clicked="OnNavegarParaSessaoClicked" CommandParameter="{x:Reference SushisTitle}"/>
+            <Button Grid.Row="1" Grid.Column="0" Text="PRATOS QUENTES" Clicked="OnNavegarParaSessaoClicked" CommandParameter="{x:Reference PratosQuentesTitle}"/>
+            <Button Grid.Row="1" Grid.Column="1" Text="BEBIDAS" Clicked="OnNavegarParaSessaoClicked" CommandParameter="{x:Reference BebidasTitle}"/>
+        </Grid>
+
+        <ScrollView Grid.Row="1" x:Name="MenuScrollView">
+            <VerticalStackLayout Spacing="20" Padding="10">
+
+                <Label x:Name="BarcasTitle" Text="BARCAS" FontSize="22" FontAttributes="Bold" />
+                <Border StrokeShape="RoundRectangle 10" Padding="10">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnItemTapped" />
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
+                        <Image Source="dotnet_bot.png" WidthRequest="80" HeightRequest="80" Aspect="AspectFill"/>
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                            <Label Text="Barca Miyako" FontAttributes="Bold" />
+                            <Label Text="20 sashimis, 10 niguiris, 10 hossomakis" FontSize="12" />
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2" Text="R$ 99,90" VerticalOptions="Center" FontAttributes="Bold"/>
+                    </Grid>
+                </Border>
+                <Border StrokeShape="RoundRectangle 10" Padding="10">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnItemTapped" />
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
+                        <Image Source="dotnet_bot.png" WidthRequest="80" HeightRequest="80" Aspect="AspectFill"/>
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                            <Label Text="Barca Especial" FontAttributes="Bold" />
+                            <Label Text="30 sashimis, 15 uramakis, 15 joy" FontSize="12" />
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2" Text="R$ 129,90" VerticalOptions="Center" FontAttributes="Bold"/>
+                    </Grid>
+                </Border>
+
+                <Label x:Name="SushisTitle" Text="SUSHIS" FontSize="22" FontAttributes="Bold" />
+                <Border StrokeShape="RoundRectangle 10" Padding="10">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnItemTapped" />
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
+                        <Image Source="dotnet_bot.png" WidthRequest="80" HeightRequest="80" Aspect="AspectFill"/>
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                            <Label Text="Uramaki Filadélfia" FontAttributes="Bold" />
+                            <Label Text="Salmão, cream cheese e cebolinha" FontSize="12" />
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2" Text="R$ 24,90" VerticalOptions="Center" FontAttributes="Bold"/>
+                    </Grid>
+                </Border>
+                <Border StrokeShape="RoundRectangle 10" Padding="10">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnItemTapped" />
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
+                        <Image Source="dotnet_bot.png" WidthRequest="80" HeightRequest="80" Aspect="AspectFill"/>
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                            <Label Text="Niguiri de Atum" FontAttributes="Bold" />
+                            <Label Text="Fatia de atum sobre arroz de sushi" FontSize="12" />
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2" Text="R$ 18,90" VerticalOptions="Center" FontAttributes="Bold"/>
+                    </Grid>
+                </Border>
+
+                <Label x:Name="PratosQuentesTitle" Text="PRATOS QUENTES" FontSize="22" FontAttributes="Bold" />
+                <Border StrokeShape="RoundRectangle 10" Padding="10">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnItemTapped" />
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
+                        <Image Source="dotnet_bot.png" WidthRequest="80" HeightRequest="80" Aspect="AspectFill"/>
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                            <Label Text="Yakisoba de Carne" FontAttributes="Bold" />
+                            <Label Text="Macarrão, carne, legumes e molho especial" FontSize="12" />
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2" Text="R$ 35,00" VerticalOptions="Center" FontAttributes="Bold"/>
+                    </Grid>
+                </Border>
+                <Border StrokeShape="RoundRectangle 10" Padding="10">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnItemTapped" />
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
+                        <Image Source="dotnet_bot.png" WidthRequest="80" HeightRequest="80" Aspect="AspectFill"/>
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                            <Label Text="Tempurá de Camarão" FontAttributes="Bold" />
+                            <Label Text="Camarões grandes empanados e fritos" FontSize="12" />
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2" Text="R$ 45,00" VerticalOptions="Center" FontAttributes="Bold"/>
+                    </Grid>
+                </Border>
+
+                <Label x:Name="BebidasTitle" Text="BEBIDAS" FontSize="22" FontAttributes="Bold" />
+                <Border StrokeShape="RoundRectangle 10" Padding="10">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnItemTapped" />
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
+                        <Image Source="dotnet_bot.png" WidthRequest="80" HeightRequest="80" Aspect="AspectFill"/>
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                            <Label Text="Refrigerante Lata" FontAttributes="Bold" />
+                            <Label Text="Coca-cola, Guaraná, Soda" FontSize="12" />
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2" Text="R$ 6,00" VerticalOptions="Center" FontAttributes="Bold"/>
+                    </Grid>
+                </Border>
+                <Border StrokeShape="RoundRectangle 10" Padding="10">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnItemTapped" />
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
+                        <Image Source="dotnet_bot.png" WidthRequest="80" HeightRequest="80" Aspect="AspectFill"/>
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                            <Label Text="Água com Gás" FontAttributes="Bold" />
+                            <Label Text="Garrafa de 500ml" FontSize="12" />
+                        </VerticalStackLayout>
+                        <Label Grid.Column="2" Text="R$ 4,00" VerticalOptions="Center" FontAttributes="Bold"/>
+                    </Grid>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+    </Grid>
 </ContentPage>

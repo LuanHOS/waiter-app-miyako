@@ -3,10 +3,49 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="waiter_app_miyako.Views.PedidosPage"
              Title="PEDIDOS">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="25" Padding="15">
+
+            <VerticalStackLayout Spacing="10">
+
+                <HorizontalStackLayout Spacing="10" VerticalOptions="Center" HorizontalOptions="Center">
+                    <Image Source="clock_icon.png" HeightRequest="24" WidthRequest="24" />
+                    <Label Text="EM ANDAMENTO" 
+                           FontAttributes="Bold"
+                           FontSize="18"
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+
+                <VerticalStackLayout x:Name="EmAndamentoList" Spacing="8">
+                    <Grid ColumnDefinitions="*,*,*,Auto" Padding="10,5">
+                        <Label Grid.Column="0" Text="MESA" FontAttributes="Bold" />
+                        <Label Grid.Column="1" Text="HORÁRIO" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        <Label Grid.Column="2" Text="QUANT." FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="10">
+
+                <HorizontalStackLayout Spacing="10" VerticalOptions="Center" HorizontalOptions="Center">
+                    <Image Source="success_icon.png" HeightRequest="24" WidthRequest="24" />
+                    <Label Text="FINALIZADOS" 
+                           FontAttributes="Bold" 
+                           FontSize="18"
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+
+                <VerticalStackLayout x:Name="FinalizadosList" Spacing="8">
+                    <Grid ColumnDefinitions="*,*,*,Auto" Padding="10,5">
+                        <Label Grid.Column="0" Text="MESA" FontAttributes="Bold" />
+                        <Label Grid.Column="1" Text="DATA" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        <Label Grid.Column="2" Text="QUANT." FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>
