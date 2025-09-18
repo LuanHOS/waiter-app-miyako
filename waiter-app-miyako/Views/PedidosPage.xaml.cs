@@ -1,61 +1,60 @@
 using Microsoft.Maui.Controls.Shapes;
+using System.Linq;
+using System.Threading.Tasks;
+using waiter_app_miyako.Services;
+using System;
 
 namespace waiter_app_miyako.Views;
 
 public partial class PedidosPage : ContentPage
 {
+    private readonly MockApiService _apiService;
+
     public PedidosPage()
     {
         InitializeComponent();
-        CarregarPedidosProvisorios();
+        _apiService = new MockApiService();
     }
 
-    private void CarregarPedidosProvisorios()
+    protected override async void OnAppearing()
     {
-        // Dados provisórios para pedidos EM ANDAMENTO
-        var pedidosEmAndamento = new List<Tuple<string, string, string>>
+        base.OnAppearing();
+        await CarregarPedidos();
+    }
+
+    private async Task CarregarPedidos()
+    {
+        var todosPedidosDaApi = await _apiService.FetchPedidos();
+
+        var hoje = DateTime.Today;
+        var pedidosDeHoje = todosPedidosDaApi.Where(p => p.dataPedido.HasValue && p.dataPedido.Value.Date == hoje);
+
+        var pedidosEmAndamento = pedidosDeHoje.Where(p => p.status == "aberto");
+        var pedidosFinalizados = pedidosDeHoje.Where(p => p.status == "entregue");
+
+        while (EmAndamentoList.Children.Count > 1)
         {
-            new("05", "15:00", "x3"),
-            new("05", "15:00", "x3"),
-            new("03", "14:18", "x5"),
-            new("08", "17:25", "x2")
-        };
-
-        // Dados provisórios para pedidos FINALIZADOS
-        var pedidosFinalizados = new List<Tuple<string, string, string>>
+            EmAndamentoList.Children.RemoveAt(1);
+        }
+        while (FinalizadosList.Children.Count > 1)
         {
-            new("01", "10/05/2025", "x4"),
-            new("02", "10/05/2025", "x7"),
-            new("09", "10/05/2025", "x3"),
-            new("09", "10/05/2025", "x3"),
-            new("09", "10/05/2025", "x3"),
-            new("09", "10/05/2025", "x3"),
-            new("09", "10/05/2025", "x3"),
-            new("09", "10/05/2025", "x3"),
-            new("09", "10/05/2025", "x3"),
-            new("09", "10/05/2025", "x3"),
-            new("09", "10/05/2025", "x3"),
-            new("09", "10/05/2025", "x3"),
-            new("09", "10/05/2025", "x3"),
-            new("09", "10/05/2025", "x3"),
-            new("09", "10/05/2025", "x3"),
-            new("09", "10/05/2025", "x3"),
-            new("09", "10/05/2025", "x3"),
-            new("09", "10/05/2025", "x3"),
-
-
-        };
-
-        // Popula a lista de pedidos em andamento
-        foreach (var pedido in pedidosEmAndamento)
-        {
-            EmAndamentoList.Add(CriarLinhaPedido(pedido.Item1, pedido.Item2, pedido.Item3));
+            FinalizadosList.Children.RemoveAt(1);
         }
 
-        // Popula a lista de pedidos finalizados
+        foreach (var pedido in pedidosEmAndamento)
+        {
+            var mesaNome = $"{pedido.mesaNumero:00}";
+            var horario = pedido.dataPedido?.ToString("HH:mm") ?? "N/A";
+            var quantidade = $"x{pedido.itens?.Sum(i => i.quantidade) ?? 0}";
+            EmAndamentoList.Add(CriarLinhaPedido(mesaNome, horario, quantidade));
+        }
+
         foreach (var pedido in pedidosFinalizados)
         {
-            FinalizadosList.Add(CriarLinhaPedido(pedido.Item1, pedido.Item2, pedido.Item3));
+            var mesaNome = $"{pedido.mesaNumero:00}";
+            var horario = pedido.dataPedido?.ToString("HH:mm") ?? "N/A";
+            var quantidade = $"x{pedido.itens?.Sum(i => i.quantidade) ?? 0}";
+            FinalizadosList.Add(CriarLinhaPedido(mesaNome, horario, quantidade));
         }
     }
 
@@ -87,7 +86,6 @@ public partial class PedidosPage : ContentPage
             (Color)Application.Current.Resources["Gray300"],
             (Color)Application.Current.Resources["Gray500"]);
 
-        // Adiciona o gesto de toque para tornar a linha clicável
         var tapGesture = new TapGestureRecognizer();
         tapGesture.Tapped += OnPedidoTapped;
         border.GestureRecognizers.Add(tapGesture);
@@ -97,7 +95,6 @@ public partial class PedidosPage : ContentPage
 
     private async void OnPedidoTapped(object sender, TappedEventArgs e)
     {
-        // Lógica futura para navegar para os detalhes do pedido clicado
-        await DisplayAlert("Detalhes do Pedido", "Navegando para os detalhes do pedido...", "OK");
+        await DisplayAlert("Detalhes do Pedido", "Ainda não criado", "OK");
     }
 }

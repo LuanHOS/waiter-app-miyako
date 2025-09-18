@@ -1,32 +1,26 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using waiter_app_miyako.Models;
+using waiter_app_miyako.Services; // Importar o serviço
 
 namespace waiter_app_miyako.ViewModels
 {
     public class HomePageViewModel
     {
         public ObservableCollection<MesaViewModel> Mesas { get; set; }
+        private readonly MockApiService _apiService;
 
         public HomePageViewModel()
         {
             Mesas = new ObservableCollection<MesaViewModel>();
-            CarregarMesas();
+            _apiService = new MockApiService(); // Instancia o serviço
         }
 
-        private void CarregarMesas()
+        public async Task CarregarMesas()
         {
-            // Simulação de dados recebidos da API (lista de Models 'Mesas')
-            var mesasDaApi = new List<Mesas>();
-            for (int i = 1; i <= 20; i++)
-            {
-                string status = "livre";
-                if (i % 4 == 0) status = "ocupada";
-                if (i % 7 == 0) status = "atencao";
+            var mesasDaApi = await _apiService.FetchMesas();
 
-                mesasDaApi.Add(new Mesas { numeroMesa = i, statusMesa = status });
-            }
-
-            // Transforma cada Model da API em uma ViewModel para a tela
+            Mesas.Clear();
             foreach (var mesaModel in mesasDaApi)
             {
                 Mesas.Add(new MesaViewModel(mesaModel));
