@@ -11,7 +11,7 @@ public partial class HomePage : ContentPage
     private void CarregarMesas()
     {
         // Valor provisório, já que a API não existe ainda.
-        int numeroDeMesas = 20;
+        int numeroDeMesas = 30;
 
         for (int i = 1; i <= numeroDeMesas; i++)
         {
@@ -20,17 +20,17 @@ public partial class HomePage : ContentPage
                 Text = i.ToString(),
                 FontSize = 24,
                 FontAttributes = FontAttributes.Bold,
-                HeightRequest = 110, // Altura para parecer um "cubo"
-                WidthRequest = 110,  // Largura para parecer um "cubo"
+                HeightRequest = 90, 
+                WidthRequest = 90, 
                 CornerRadius = 10
             };
 
-            // Define a cor de fundo com base nos recursos de tema do App
+            // Define a cor de fundo
             button.SetAppThemeColor(Button.BackgroundColorProperty,
                 (Color)Application.Current.Resources["Gray200"],
                 (Color)Application.Current.Resources["Gray600"]);
 
-            // Define a cor do texto com base nos recursos de tema do App
+            // Define a cor do texto
             button.SetAppThemeColor(Button.TextColorProperty,
                (Color)Application.Current.Resources["Black"],
                (Color)Application.Current.Resources["White"]);

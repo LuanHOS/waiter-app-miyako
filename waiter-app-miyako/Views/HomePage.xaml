@@ -3,12 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="waiter_app_miyako.Views.HomePage"
              Title="">
+    
     <ScrollView>
+        
         <Grid x:Name="MesasGrid"
-              Padding="10"
-              ColumnSpacing="10"
-              RowSpacing="10"
+              Padding="50"
+              ColumnSpacing="20"
+              RowSpacing="20"
               ColumnDefinitions="*,*,*">
         </Grid>
     </ScrollView>
+    
+    
 </ContentPage>
