@@ -64,11 +64,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Models\" />
-	  <Folder Include="ViewModels\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <MauiXaml Update="Views\CardapioPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

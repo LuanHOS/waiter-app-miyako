@@ -1,18 +1,47 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:waiter_app_miyako.Models"
              x:Class="waiter_app_miyako.Views.HomePage"
-             Title="">
-    
-    <ScrollView>
-        
-        <Grid x:Name="MesasGrid"
-              Padding="50"
-              ColumnSpacing="20"
-              RowSpacing="20"
-              ColumnDefinitions="*,*,*">
-        </Grid>
+             Title="MESAS">
+
+    <ContentPage.Resources>
+        <Style x:Key="MesaButtonStyle" TargetType="Button">
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="HeightRequest" Value="90" />
+            <Setter Property="WidthRequest" Value="90" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="BorderColor" Value="Black" />
+            <Setter Property="BorderWidth" Value="2" />
+            <Setter Property="BackgroundColor" Value="White" />
+            <Style.Triggers>
+                <DataTrigger TargetType="Button" Binding="{Binding Status}" Value="ocupada">
+                    <Setter Property="BackgroundColor" Value="Green" />
+                </DataTrigger>
+                <DataTrigger TargetType="Button" Binding="{Binding Status}" Value="atencao">
+                    <Setter Property="BackgroundColor" Value="Yellow" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </ContentPage.Resources>
+
+    <ScrollView Padding="50">
+        <CollectionView ItemsSource="{Binding Mesas}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical"
+                                 Span="3"
+                                 HorizontalItemSpacing="20"
+                                 VerticalItemSpacing="20"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Mesa">
+                    <Button Text="{Binding Numero}"
+                            Style="{StaticResource MesaButtonStyle}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </ScrollView>
-    
-    
+
 </ContentPage>
