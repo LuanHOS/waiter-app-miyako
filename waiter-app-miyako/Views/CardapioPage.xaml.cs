@@ -1,16 +1,15 @@
-using System;
+using waiter_app_miyako.ViewModels;
 using System.Linq;
-using Microsoft.Maui.Controls;
 
 namespace waiter_app_miyako.Views
 {
     public partial class CardapioPage : ContentPage
     {
         // ===== Configurações em porcentagem (0.0 a 1.0) =====
-        private double _minPct = 0.12;         // Minimizada (~12% da altura disponível)
+        private double _minPct = 0.12;         // Minimizada
         private double _halfPct = 0.50;        // Metade da tela
-        private double _maxPct = 1.00;         // Cheia (até o topo, sem gap)
-        private double _snapThresholdPct = 0.07; // Limiar de "imã" (7% da altura)
+        private double _maxPct = 1.00;         // Até o topo
+        private double _snapThresholdPct = 0.07; // Limiar de "imã"
 
         // Altura em px calculada dinamicamente a partir das porcentagens
         private double _minHeight, _halfHeight, _maxHeight, _snapThreshold;
@@ -21,17 +20,22 @@ namespace waiter_app_miyako.Views
         private enum SheetState { Minimizada, Metade, Expandida }
         private SheetState _estadoAtual = SheetState.Minimizada;
 
+        // ViewModel para gerenciar os dados do cardápio
+        private readonly CardapioViewModel _viewModel;
+
         public CardapioPage()
         {
             InitializeComponent();
+            _viewModel = new CardapioViewModel();
+            this.BindingContext = _viewModel; // Define o BindingContext da página
             MainGrid.SizeChanged += MainGrid_SizeChanged;
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
+            await _viewModel.CarregarCardapio(); // Carrega os dados através da ViewModel
             RecalcularAncoras();
-            // Garante início minimizado baseado em porcentagem
             SnapTo(SheetState.Minimizada, animated: false);
         }
 
@@ -48,23 +52,59 @@ namespace waiter_app_miyako.Views
             SnapTo(estadoAntes, animated: false);
         }
 
-        // ============== handlers originais ==============
-        private async void OnNavegarParaSessaoClicked(object sender, EventArgs e)
+
+
+
+
+
+
+
+
+
+
+
+
+        // ============== LÓGICA DE SCROLL ==============
+        private void OnNavegarParaSessaoClicked(object sender, EventArgs e)
         {
-            var button = sender as Button;
-            if (button == null) return;
+            if (sender is Button button && button.CommandParameter is string nomeDoGrupo)
+            {
+                var groupIndex = _viewModel.CardapioAgrupado
+                    .Select((g, idx) => new { g, idx })
+                    .FirstOrDefault(x => string.Equals(x.g.NomeDoGrupo, nomeDoGrupo, StringComparison.OrdinalIgnoreCase))?.idx ?? -1;
 
-            var targetElement = button.CommandParameter as VisualElement;
-            if (targetElement == null) return;
+                if (groupIndex < 0) return;
 
-            await MenuScrollView.ScrollToAsync(targetElement, ScrollToPosition.Start, true);
+                // itemIndex = 0 (primeiro item do grupo)
+                MenuCollectionView.ScrollTo(0, groupIndex, ScrollToPosition.Start, true);
+            }
         }
 
         private async void OnItemTapped(object sender, TappedEventArgs e)
         {
-            await Navigation.PushAsync(new ItemDetalhesPage());
+            if (e.Parameter is Models.Produtos)
+            {
+                await Navigation.PushAsync(new ItemDetalhesPage());
+            }
         }
         // =====================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // ============== Gesto de arraste (Pan) ===============
         private void OnPanUpdated(object sender, PanUpdatedEventArgs e)
@@ -80,7 +120,6 @@ namespace waiter_app_miyako.Views
                     break;
 
                 case GestureStatus.Running:
-                    // Arrastar para cima => TotalY negativo => aumenta a altura
                     var novaAltura = _alturaInicialArraste - e.TotalY;
                     novaAltura = Math.Clamp(novaAltura, _minHeight, _maxHeight);
                     SetHeight(novaAltura);
@@ -95,7 +134,17 @@ namespace waiter_app_miyako.Views
         }
         // =====================================================
 
-        // ================= Snap/Âncoras (% tela) =============
+
+
+
+
+
+
+
+
+
+
+        // ============== LÓGICA DE SNAP ==============
         private void RecalcularAncoras()
         {
             double total = MainGrid?.Height ?? 0;
@@ -103,7 +152,7 @@ namespace waiter_app_miyako.Views
 
             _minHeight = total * _minPct;
             _halfHeight = total * _halfPct;
-            _maxHeight = total * _maxPct;            // 100% da tela
+            _maxHeight = total * _maxPct;
             _snapThreshold = total * _snapThresholdPct;
         }
 
@@ -116,17 +165,14 @@ namespace waiter_app_miyako.Views
             if (Math.Abs(delta) > _snapThreshold)
             {
                 double target;
-                if (delta > 0)
+                if (delta > 0) // Puxou pra cima: aumenta a altura
                 {
-                    // Puxou pra cima: próxima âncora acima
                     target = anchors.Where(a => a > _alturaInicialArraste).DefaultIfEmpty(_maxHeight).Min();
                 }
-                else
+                else // Puxou pra baixo: diminui a altura
                 {
-                    // Puxou pra baixo: próxima âncora abaixo
                     target = anchors.Where(a => a < _alturaInicialArraste).DefaultIfEmpty(_minHeight).Max();
                 }
-
                 SnapTo(ClosestState(target));
             }
             else
@@ -196,6 +242,18 @@ namespace waiter_app_miyako.Views
 
         private double[] Anchors() => new[] { _minHeight, _halfHeight, _maxHeight };
         // =====================================================
+
+
+
+
+
+
+
+
+
+
+
+
 
         // =================== Utilitários =====================
         private void SetHeight(double h)
