@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="waiter_app_miyako.Views.CardapioPage"
-             Title=" ">
+             Title="">
 
     <!-- Grid externo para suportar conteúdo + BottomSheet -->
     <Grid x:Name="MainGrid" RowSpacing="0">
@@ -11,7 +11,7 @@
             <RowDefinition x:Name="BottomSheetRow" Height="100" />
         </Grid.RowDefinitions>
 
-        <!-- ===== INÍCIO: CÓDIGO ORIGINAL (sem remoções) ===== -->
+        <!-- ===== INÍCIO: CÓDIGO ORIGINAL ===== -->
         <Grid Grid.Row="0" RowDefinitions="Auto, *">
 
             <Grid Grid.Row="0" Padding="10" ColumnSpacing="10" RowSpacing="10" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
@@ -142,12 +142,10 @@
         </Grid>
         <!-- ===== FIM: CÓDIGO ORIGINAL ===== -->
 
-        <!-- Bottom Sheet adicionada -->
+        <!-- Bottom Sheet  -->
         <Border Grid.Row="1"
                 x:Name="BottomSheet"
-                Stroke="Gray"
-                StrokeThickness="1"
-                BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
+                BackgroundColor="LightGray"
                 Padding="0"
                 Margin="0">
             <Border.StrokeShape>
@@ -158,7 +156,7 @@
                          HeightRequest="5"
                          WidthRequest="40"
                          CornerRadius="2.5"
-                         BackgroundColor="Gray"
+                         BackgroundColor="{StaticResource Red}"
                          HorizontalOptions="Center"
                          VerticalOptions="Start"
                          Margin="0,10,0,10">
@@ -167,10 +165,14 @@
                     </BoxView.GestureRecognizers>
                 </BoxView>
 
-                <Label Text="Aqui ficará o conteúdo da Bottom Sheet"
+                <Label Text="PEDIDO"
                        HorizontalOptions="Center"
-                       VerticalOptions="Center"
+                       VerticalOptions="Start"
+                       FontAttributes="Bold"
+                       FontSize="18"
+                       TextColor="{StaticResource Red}"
                        Margin="0,20,0,0"/>
+
             </VerticalStackLayout>
         </Border>
 

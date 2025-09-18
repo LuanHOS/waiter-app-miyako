@@ -48,7 +48,7 @@ namespace waiter_app_miyako.Views
             SnapTo(estadoAntes, animated: false);
         }
 
-        // ============== Seus handlers originais ==============
+        // ============== handlers originais ==============
         private async void OnNavegarParaSessaoClicked(object sender, EventArgs e)
         {
             var button = sender as Button;
