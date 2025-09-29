@@ -7,8 +7,6 @@
         // FKs (coluna no banco é MesaNumero)
         public int? mesaNumero { get; set; }
         public Mesas? mesa { get; set; }
-        public decimal valorTotal { get; set; }
-        public string status { get; set; }
 
         public int? funcionarioId { get; set; }
         public Funcionarios? funcionario { get; set; }

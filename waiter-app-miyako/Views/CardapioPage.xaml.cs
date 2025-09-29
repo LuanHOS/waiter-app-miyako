@@ -1,5 +1,6 @@
 using waiter_app_miyako.ViewModels;
 using System.Linq;
+using waiter_app_miyako.Models;
 
 namespace waiter_app_miyako.Views
 {
@@ -52,18 +53,6 @@ namespace waiter_app_miyako.Views
             SnapTo(estadoAntes, animated: false);
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
         // ============== LÓGICA DE SCROLL ==============
         private void OnNavegarParaSessaoClicked(object sender, EventArgs e)
         {
@@ -82,29 +71,12 @@ namespace waiter_app_miyako.Views
 
         private async void OnItemTapped(object sender, TappedEventArgs e)
         {
-            if (e.Parameter is Models.Produtos)
+            if (e.Parameter is Models.Produtos produto)
             {
-                await Navigation.PushAsync(new ItemDetalhesPage());
+                await Navigation.PushAsync(new ItemDetalhesPage(produto));
             }
         }
         // =====================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         // ============== Gesto de arraste (Pan) ===============
         private void OnPanUpdated(object sender, PanUpdatedEventArgs e)
@@ -133,16 +105,6 @@ namespace waiter_app_miyako.Views
             }
         }
         // =====================================================
-
-
-
-
-
-
-
-
-
-
 
         // ============== LÓGICA DE SNAP ==============
         private void RecalcularAncoras()
@@ -242,18 +204,6 @@ namespace waiter_app_miyako.Views
 
         private double[] Anchors() => new[] { _minHeight, _halfHeight, _maxHeight };
         // =====================================================
-
-
-
-
-
-
-
-
-
-
-
-
 
         // =================== Utilitários =====================
         private void SetHeight(double h)

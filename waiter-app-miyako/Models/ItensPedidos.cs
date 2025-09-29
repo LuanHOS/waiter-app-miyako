@@ -8,12 +8,12 @@
         public int numeroMesa { get; set; }   // alias de numero_mesa
 
         // Objetos aninhados
-        public Pedidos? pedido { get; set; }
         public Produtos? produto { get; set; }
         public Mesas? mesa { get; set; }
 
+        public string? Status {  get; set; }
+
         public int quantidade { get; set; }
         public decimal? precoUnitario { get; set; }
-        public decimal? totalItem { get; set; }
     }
 }

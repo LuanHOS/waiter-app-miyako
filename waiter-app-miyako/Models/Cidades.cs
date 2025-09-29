@@ -1,5 +1,4 @@
-﻿
-using System.Reflection.PortableExecutable;
+﻿using System.Reflection.PortableExecutable;
 
 namespace waiter_app_miyako.Models
 {

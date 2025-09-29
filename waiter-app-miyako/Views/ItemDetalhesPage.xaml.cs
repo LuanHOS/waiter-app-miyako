@@ -1,16 +1,19 @@
+using waiter_app_miyako.Models;
+
 namespace waiter_app_miyako.Views;
 
 public partial class ItemDetalhesPage : ContentPage
 {
     private int quantidade = 1;
+    private Produtos _produto;
 
-    public ItemDetalhesPage()
+    public ItemDetalhesPage(Produtos produto)
     {
         InitializeComponent();
+        _produto = produto;
+        this.BindingContext = _produto;
         AtualizarLabelQuantidade();
     }
-
-    // O método OnVoltarClicked foi REMOVIDO daqui.
 
     private void OnDiminuirClicked(object sender, EventArgs e)
     {

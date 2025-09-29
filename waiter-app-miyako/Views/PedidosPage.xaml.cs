@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using waiter_app_miyako.Services;
 using System;
+using waiter_app_miyako.Models;
 
 namespace waiter_app_miyako.Views;
 
@@ -29,8 +30,8 @@ public partial class PedidosPage : ContentPage
         var hoje = DateTime.Today;
         var pedidosDeHoje = todosPedidosDaApi.Where(p => p.dataPedido.HasValue && p.dataPedido.Value.Date == hoje);
 
-        var pedidosEmAndamento = pedidosDeHoje.Where(p => p.status == "aberto");
-        var pedidosFinalizados = pedidosDeHoje.Where(p => p.status == "entregue");
+        var pedidosEmAndamento = pedidosDeHoje.Where(p => p.itens != null && p.itens.Any(i => i.Status == "aberto"));
+        var pedidosFinalizados = pedidosDeHoje.Where(p => p.itens != null && p.itens.All(i => i.Status == "entregue"));
 
         while (EmAndamentoList.Children.Count > 1)
         {
