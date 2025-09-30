@@ -106,11 +106,27 @@ namespace waiter_app_miyako.Views
             }
             else
             {
-                _viewModel.ItensDoPedido.Add(new ItemPedidoViewModel(produto, quantidade));
+                // Passa o método de callback para o novo item
+                _viewModel.ItensDoPedido.Add(new ItemPedidoViewModel(produto, quantidade, OnRemoverItemRequest));
             }
 
-            SnapTo(SheetState.Expandida);
+            SnapTo(SheetState.Minimizada);
         }
+
+        // Método que exibe o pop-up e remove o item se confirmado
+        private async void OnRemoverItemRequest(ItemPedidoViewModel itemParaRemover)
+        {
+            bool confirmar = await DisplayAlert(
+                "Remover Item",
+                $"Deseja remover o item '{itemParaRemover.Produto.descricao}' do pedido?",
+                "Sim", "Não");
+
+            if (confirmar)
+            {
+                _viewModel.ItensDoPedido.Remove(itemParaRemover);
+            }
+        }
+
 
         private void OnPanUpdated(object sender, PanUpdatedEventArgs e)
         {
@@ -245,4 +261,3 @@ namespace waiter_app_miyako.Views
         }
     }
 }
-

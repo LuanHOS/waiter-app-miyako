@@ -19,14 +19,18 @@ namespace waiter_app_miyako.ViewModels
                 {
                     _quantidade = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(ValorTotal));
                 }
             }
         }
 
+        public decimal ValorTotal => Produto.preco * Quantidade;
+
         public ICommand AumentarQuantidadeCommand { get; }
         public ICommand DiminuirQuantidadeCommand { get; }
 
-        public ItemPedidoViewModel(Produtos produto, int quantidade)
+        // Construtor atualizado para receber a ação de remoção
+        public ItemPedidoViewModel(Produtos produto, int quantidade, Action<ItemPedidoViewModel> onRemoverRequest)
         {
             Produto = produto;
             _quantidade = quantidade;
@@ -37,6 +41,11 @@ namespace waiter_app_miyako.ViewModels
                 if (Quantidade > 1)
                 {
                     Quantidade--;
+                }
+                else
+                {
+                    // Se a quantidade for 1, invoca a ação para solicitar a remoção
+                    onRemoverRequest?.Invoke(this);
                 }
             });
         }

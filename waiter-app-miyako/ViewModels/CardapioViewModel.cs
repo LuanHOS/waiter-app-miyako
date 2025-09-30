@@ -5,8 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using waiter_app_miyako.Models;
 using waiter_app_miyako.Services;
-using System.Collections.ObjectModel; // Adicionar esta using
-
+using System.Collections.Specialized;
 
 namespace waiter_app_miyako.ViewModels
 {
@@ -28,10 +27,44 @@ namespace waiter_app_miyako.ViewModels
 
         public ObservableCollection<ItemPedidoViewModel> ItensDoPedido { get; } = new();
 
+        // Propriedade para o total do pedido
+        public decimal Total { get; private set; }
 
         public CardapioViewModel()
         {
             for (int i = 1; i <= 20; i++) { NumeroClientes.Add(i); }
+
+            // Observa alterações na lista de itens (itens adicionados/removidos)
+            ItensDoPedido.CollectionChanged += (s, e) =>
+            {
+                if (e.NewItems != null)
+                {
+                    foreach (INotifyPropertyChanged item in e.NewItems)
+                        item.PropertyChanged += Item_PropertyChanged;
+                }
+                if (e.OldItems != null)
+                {
+                    foreach (INotifyPropertyChanged item in e.OldItems)
+                        item.PropertyChanged -= Item_PropertyChanged;
+                }
+                RecalcularTotal();
+            };
+        }
+
+        // Observa alterações na quantidade de um item específico
+        private void Item_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ItemPedidoViewModel.Quantidade))
+            {
+                RecalcularTotal();
+            }
+        }
+
+        // Método que calcula o total
+        private void RecalcularTotal()
+        {
+            Total = ItensDoPedido.Sum(item => item.ValorTotal);
+            OnPropertyChanged(nameof(Total));
         }
 
         public async Task CarregarDadosIniciais()
@@ -62,7 +95,6 @@ namespace waiter_app_miyako.ViewModels
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
         }
     }
 }
