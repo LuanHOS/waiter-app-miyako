@@ -1,16 +1,20 @@
 using waiter_app_miyako.Models;
+using waiter_app_miyako.ViewModels; // Adicionar esta using
 
 namespace waiter_app_miyako.Views;
 
 public partial class ItemDetalhesPage : ContentPage
 {
     private int quantidade = 1;
-    private Produtos _produto;
+    private readonly Produtos _produto;
+    private readonly Action<Produtos, int> _onAdicionarCallback; // Ação de retorno
 
-    public ItemDetalhesPage(Produtos produto)
+    // Construtor modificado para receber a ação
+    public ItemDetalhesPage(Produtos produto, Action<Produtos, int> onAdicionarCallback)
     {
         InitializeComponent();
         _produto = produto;
+        _onAdicionarCallback = onAdicionarCallback;
         this.BindingContext = _produto;
         AtualizarLabelQuantidade();
     }
@@ -37,7 +41,10 @@ public partial class ItemDetalhesPage : ContentPage
 
     private async void OnAdicionarClicked(object sender, EventArgs e)
     {
-        // Lógica futura para adicionar o item ao pedido
-        await DisplayAlert("Adicionado", $"{quantidade} item(s) adicionado(s) ao pedido.", "OK");
+        // Executa a ação de retorno, enviando o produto e a quantidade
+        _onAdicionarCallback?.Invoke(_produto, quantidade);
+
+        // Volta para a página anterior (CardapioPage)
+        await Navigation.PopAsync();
     }
 }

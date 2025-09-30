@@ -5,6 +5,8 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using waiter_app_miyako.Models;
 using waiter_app_miyako.Services;
+using System.Collections.ObjectModel; // Adicionar esta using
+
 
 namespace waiter_app_miyako.ViewModels
 {
@@ -23,6 +25,9 @@ namespace waiter_app_miyako.ViewModels
         // Propriedades para os Pickers
         public ObservableCollection<Mesas> Mesas { get; } = new();
         public List<int> NumeroClientes { get; } = new();
+
+        public ObservableCollection<ItemPedidoViewModel> ItensDoPedido { get; } = new();
+
 
         public CardapioViewModel()
         {
@@ -57,6 +62,7 @@ namespace waiter_app_miyako.ViewModels
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
         }
     }
 }
