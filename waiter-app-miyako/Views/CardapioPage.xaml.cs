@@ -7,7 +7,7 @@ namespace waiter_app_miyako.Views
     public partial class CardapioPage : ContentPage
     {
         // ===== Configurações em porcentagem (0.0 a 1.0) =====
-        private double _minPct = 0.12;         // Minimizada
+        private double _minPct = 0.08;         // Minimizada
         private double _halfPct = 0.50;        // Metade da tela
         private double _maxPct = 1.00;         // Até o topo
         private double _snapThresholdPct = 0.07; // Limiar de "imã"

@@ -9,7 +9,7 @@
     <ScrollView>
         <VerticalStackLayout Spacing="15" Padding="0">
 
-            <Image Source="{Binding imagem, TargetNullValue='dotnet_bot.png'}"
+            <Image Source="{Binding imagem, TargetNullValue='default_food.png'}"
                    Aspect="AspectFill"
                    HeightRequest="250"
                    HorizontalOptions="FillAndExpand" />

@@ -43,7 +43,7 @@
                                 <TapGestureRecognizer Tapped="OnItemTapped" CommandParameter="{Binding .}"/>
                             </Border.GestureRecognizers>
                             <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
-                                <Image Source="{Binding imagem, TargetNullValue='dotnet_bot.png'}" WidthRequest="80" HeightRequest="80" Aspect="AspectFill"/>
+                                <Image Source="{Binding imagem, TargetNullValue='default_food.png'}" WidthRequest="80" HeightRequest="80" Aspect="AspectFill"/>
                                 <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
                                     <Label Text="{Binding descricao}" FontAttributes="Bold" />
                                     <Label Text="{Binding ingredientes}" FontSize="12" />
@@ -79,11 +79,9 @@
                     <Button Grid.Column="2" Text="▼" TextColor="{StaticResource Red}" FontSize="25" BackgroundColor="Transparent" BorderWidth="0" Clicked="OnMinimizarClicked" HorizontalOptions="End" VerticalOptions="Center"/>
                 </Grid>
 
-                <Label Grid.Row="1" Text="PEDIDO" HorizontalOptions="Center" VerticalOptions="Start" FontAttributes="Bold" FontSize="18" TextColor="{StaticResource Red}" Margin="0"/>
-
                 <ScrollView Grid.Row="2">
                     <VerticalStackLayout Padding="20,15,20,20" Spacing="15">
-
+                        <Label Text="PEDIDO" FontSize="16" HorizontalOptions="Center" FontAttributes="Bold"/>
                         <Grid RowDefinitions="Auto, Auto" RowSpacing="15">
                             <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto, *" ColumnSpacing="10" VerticalOptions="Center">
                                 <Image Source="table_icon.png" WidthRequest="24" HeightRequest="24" VerticalOptions="Center"/>
@@ -103,32 +101,59 @@
 
                         <BoxView HeightRequest="1" Color="Gray" />
 
-                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding ItensDoPedido}">
-                            <BindableLayout.ItemTemplate>
-                                <DataTemplate x:DataType="viewmodels:ItemPedidoViewModel">
-                                    <Grid ColumnDefinitions="Auto, *, Auto" Padding="0,10" ColumnSpacing="10">
-                                        <Image Source="order_check_icon.png" WidthRequest="24" HeightRequest="24" VerticalOptions="Center"/>
-                                        <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
-                                            <Label Text="{Binding Produto.descricao}" FontAttributes="Bold" />
-                                            <HorizontalStackLayout Spacing="5">
-                                                <Label Text="{Binding Produto.preco, StringFormat='R$ {0:F2}'}" FontSize="12" TextColor="Gray"/>
-                                                <Label Text="{Binding ValorTotal, StringFormat='(R$ {0:F2})'}" FontSize="12" TextColor="{StaticResource Red}"/>
+                        <VerticalStackLayout Spacing="10" Margin="0,15,0,0">
+                            <Label Text="ITENS" FontSize="16" HorizontalOptions="Center" FontAttributes="Bold"/>
+
+                            <VerticalStackLayout BindableLayout.ItemsSource="{Binding ItensDoPedido}">
+                                <VerticalStackLayout.Style>
+                                    <Style TargetType="VerticalStackLayout">
+                                        <Setter Property="IsVisible" Value="True"/>
+                                        <Style.Triggers>
+                                            <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding ItensDoPedido.Count}" Value="0">
+                                                <Setter Property="IsVisible" Value="False"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </VerticalStackLayout.Style>
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="viewmodels:ItemPedidoViewModel">
+                                        <Grid ColumnDefinitions="Auto, *, Auto" Padding="0,10" ColumnSpacing="10">
+                                            <Image Source="order_check_icon.png" WidthRequest="24" HeightRequest="24" VerticalOptions="Center"/>
+                                            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                                <Label Text="{Binding Produto.descricao}" FontAttributes="Bold" />
+                                                <HorizontalStackLayout Spacing="5">
+                                                    <Label Text="{Binding Produto.preco, StringFormat='R$ {0:F2}'}" FontSize="12" TextColor="Gray"/>
+                                                    <Label Text="{Binding ValorTotal, StringFormat='(R$ {0:F2})'}" FontSize="12" TextColor="{StaticResource Red}"/>
+                                                </HorizontalStackLayout>
+                                            </VerticalStackLayout>
+                                            <HorizontalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="10">
+                                                <Button Text="-" Command="{Binding DiminuirQuantidadeCommand}" FontSize="22" FontAttributes="Bold" TextColor="{StaticResource Red}" BackgroundColor="Transparent"/>
+                                                <Label Text="{Binding Quantidade}" FontSize="20" FontAttributes="Bold" VerticalOptions="Center"/>
+                                                <Button Text="+" Command="{Binding AumentarQuantidadeCommand}" FontSize="22" FontAttributes="Bold" TextColor="{StaticResource Red}" BackgroundColor="Transparent"/>
                                             </HorizontalStackLayout>
-                                        </VerticalStackLayout>
-                                        <HorizontalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="10">
-                                            <Button Text="-" Command="{Binding DiminuirQuantidadeCommand}" FontSize="22" FontAttributes="Bold" TextColor="{StaticResource Red}" BackgroundColor="Transparent"/>
-                                            <Label Text="{Binding Quantidade}" FontSize="20" FontAttributes="Bold" VerticalOptions="Center"/>
-                                            <Button Text="+" Command="{Binding AumentarQuantidadeCommand}" FontSize="22" FontAttributes="Bold" TextColor="{StaticResource Red}" BackgroundColor="Transparent"/>
-                                        </HorizontalStackLayout>
-                                    </Grid>
-                                </DataTemplate>
-                            </BindableLayout.ItemTemplate>
+                                        </Grid>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </VerticalStackLayout>
+
+                            <Label Text="Vazio" HorizontalOptions="Center" TextColor="Gray" Padding="0,20">
+                                <Label.Style>
+                                    <Style TargetType="Label">
+                                        <Setter Property="IsVisible" Value="False"/>
+                                        <Style.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding ItensDoPedido.Count}" Value="0">
+                                                <Setter Property="IsVisible" Value="True"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
                         </VerticalStackLayout>
 
                         <BoxView HeightRequest="1" Color="Gray" />
 
-                        <VerticalStackLayout Spacing="5">
-                            <Label Text="OBSERVAÇÕES:" FontAttributes="Bold" />
+                        <VerticalStackLayout Spacing="10" Margin="0,15,0,0">
+                            <Label Text="OBSERVAÇÕES" FontSize="16" HorizontalOptions="Center" FontAttributes="Bold"/>
                             <Border StrokeShape="RoundRectangle 10" BackgroundColor="White">
                                 <Editor HeightRequest="100" />
                             </Border>

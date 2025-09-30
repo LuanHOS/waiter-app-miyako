@@ -11,6 +11,20 @@ namespace waiter_app_miyako.Services
         // Simula a latência da rede
         private async Task Delay(int ms) => await Task.Delay(ms);
 
+        // Retorna os dados do FUNCIONÁRIO LOGADO
+        public async Task<Funcionarios> FetchFuncionarioLogado()
+        {
+            await Delay(300); // Simula uma busca rápida
+            return new Funcionarios
+            {
+                funcionario = "Carlos Eduardo",
+                foto = null, // Deixamos nulo para usar a imagem padrão
+                genero = "Masculino",
+                matricula = "987654",
+                cargo = "Garçom"
+            };
+        }
+
         // Retorna os dados das MESAS
         public async Task<List<Mesas>> FetchMesas()
         {
