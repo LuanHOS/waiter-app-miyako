@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="waiter_app_miyako.Views.PedidoDetalhesPage"
+             Title="Detalhes do Pedido"
+             BackgroundColor="#3C3C3C">
+
+    <VerticalStackLayout Spacing="15" Padding="15">
+
+        <Border StrokeShape="RoundRectangle 20"
+                BackgroundColor="White"
+                Padding="20"
+                HorizontalOptions="Fill"
+                IsVisible="{Binding IsNotFinalizado}">
+
+            <VerticalStackLayout Spacing="30">
+
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="10" VerticalOptions="Center" Margin="0,10,0,10">
+                    <Image Source="red_clock_icon.png" HeightRequest="24" WidthRequest="24" />
+                    <Label Text="EM ANDAMENTO" TextColor="{StaticResource Red}" FontAttributes="Bold" FontSize="22" VerticalOptions="Center"/>
+                    <Image Source="green_circle_icon.png" HeightRequest="24" WidthRequest="24" />
+                </HorizontalStackLayout>
+
+                <VerticalStackLayout Spacing="25">
+                    <HorizontalStackLayout Spacing="15" VerticalOptions="Center">
+                        <Image Source="table_icon.png" HeightRequest="30" WidthRequest="30"/>
+                        <Label Text="Mesa" FontAttributes="Bold" FontSize="20" VerticalOptions="Center"/>
+                        <Label Text="{Binding Pedido.mesaNumero, StringFormat='{0:00}'}" FontSize="20" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Spacing="15" VerticalOptions="Center">
+                        <Image Source="people_icon.png" HeightRequest="30" WidthRequest="30"/>
+                        <Label Text="Clientes" FontAttributes="Bold" FontSize="20" VerticalOptions="Center"/>
+                        <Label Text="{Binding Pedido.clientes}" FontSize="20" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Spacing="15" VerticalOptions="Center">
+                        <Image Source="ticket_icon.png" HeightRequest="30" WidthRequest="30"/>
+                        <Label Text="Total (R$)" TextColor="{StaticResource Red}" FontAttributes="Bold" FontSize="20" VerticalOptions="Center"/>
+                        <Label Text="{Binding ValorTotal, StringFormat='{0:F2}'}" TextColor="{StaticResource Red}" FontAttributes="Bold" FontSize="20" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="15" Margin="0,15,0,0">
+                    <Button Grid.Column="0" Text="EDITAR PEDIDO" BackgroundColor="Gray" FontSize="16" HeightRequest="55"/>
+                    <Button Grid.Column="1" Text="FECHAR CONTA" BackgroundColor="{StaticResource Red}" FontSize="16" HeightRequest="55"/>
+                </Grid>
+
+            </VerticalStackLayout>
+        </Border>
+
+        <Border StrokeShape="RoundRectangle 20"
+                BackgroundColor="White"
+                Padding="15"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill">
+        </Border>
+
+    </VerticalStackLayout>
+
+</ContentPage>

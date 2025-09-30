@@ -4,7 +4,7 @@
              x:Class="waiter_app_miyako.Views.ItemDetalhesPage"
              xmlns:models="clr-namespace:waiter_app_miyako.Models"
              x:DataType="models:Produtos"
-             Title="">
+             Title="Detalhes do Produto">
 
     <ScrollView>
         <VerticalStackLayout Spacing="15" Padding="0">
@@ -75,7 +75,7 @@
                 <Button Text="ADICIONAR"
                         BackgroundColor="{StaticResource Red}"
                         TextColor="White"
-                        CornerRadius="25"
+                        CornerRadius="10"
                         HeightRequest="50"
                         Margin="0,10,0,20"
                         Clicked="OnAdicionarClicked" />

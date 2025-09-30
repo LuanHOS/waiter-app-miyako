@@ -14,11 +14,11 @@ namespace waiter_app_miyako.Services
         // Retorna os dados do FUNCIONÁRIO LOGADO
         public async Task<Funcionarios> FetchFuncionarioLogado()
         {
-            await Delay(300); // Simula uma busca rápida
+            await Delay(300);
             return new Funcionarios
             {
                 funcionario = "Carlos Eduardo",
-                foto = null, // Deixamos nulo para usar a imagem padrão
+                foto = null,
                 genero = "Masculino",
                 matricula = "987654",
                 cargo = "Garçom"
@@ -54,41 +54,59 @@ namespace waiter_app_miyako.Services
             };
         }
 
-        // Retorna os dados dos PEDIDOS
+        // Retorna os dados dos PEDIDOS (Atualizado com os novos dados)
         public async Task<List<Pedidos>> FetchPedidos()
         {
             await Delay(700);
+            var funcionario = await FetchFuncionarioLogado();
+            var produtos = await FetchProdutos();
+
             var pedidos = new List<Pedidos>
             {
                 new Pedidos {
                     id = 1,
                     mesaNumero = 8,
+                    clientes = 3,
                     mesa = new Mesas { numeroMesa = 8 },
-                    dataPedido = new DateTime(2025, 9, 29, 20, 30, 0),
+                    funcionario = funcionario,
+                    observacao = "Cliente pediu guardanapos extras.",
+                    dataAberturaPedido = new DateTime(2025, 9, 30, 20, 30, 0),
+                    finalizado = false,
                     itens = new List<ItensPedidos> {
-                        new ItensPedidos { quantidade = 2, Status = "aberto" },
-                        new ItensPedidos { quantidade = 4, Status = "aberto" }
+                        new ItensPedidos { produto = produtos.First(p => p.id == 401), quantidade = 2, Status = "aberto" },
+                        new ItensPedidos { produto = produtos.First(p => p.id == 201), quantidade = 4, Status = "aberto" }
                     }
                 },
                 new Pedidos {
                     id = 2,
                     mesaNumero = 10,
+                    clientes = 5,
                     mesa = new Mesas { numeroMesa = 10 },
-                    dataPedido = new DateTime(2025, 9, 29, 20, 0, 0),
-                    itens = new List<ItensPedidos> { new ItensPedidos { quantidade = 1, Status = "aberto" } }
+                    funcionario = funcionario,
+                    observacao = "Sem observações.",
+                    dataAberturaPedido = new DateTime(2025, 9, 30, 20, 0, 0),
+                    finalizado = false,
+                    itens = new List<ItensPedidos> {
+                        new ItensPedidos { produto = produtos.First(p => p.id == 102), quantidade = 1, Status = "aberto" }
+                    }
                 },
                 new Pedidos {
                     id = 3,
                     mesaNumero = 3,
+                    clientes = 1,
                     mesa = new Mesas { numeroMesa = 3 },
-                    dataPedido = new DateTime(2025, 9, 29, 19, 0, 0),
+                    funcionario = funcionario,
+                    observacao = "Cliente alérgico a camarão.",
+                    dataAberturaPedido = new DateTime(2025, 9, 30, 19, 0, 0),
+                    dataConclusaoPedido = new DateTime(2025, 9, 30, 20, 0, 0),
+                    finalizado = true,
                     itens = new List<ItensPedidos> {
-                        new ItensPedidos { quantidade = 1, Status = "entregue" },
-                        new ItensPedidos { quantidade = 2, Status = "entregue" }
+                        new ItensPedidos { produto = produtos.First(p => p.id == 301), quantidade = 1, Status = "entregue" },
+                        new ItensPedidos { produto = produtos.First(p => p.id == 206), quantidade = 2, Status = "entregue" }
                     }
                 },
             };
-            return pedidos.OrderByDescending(p => p.dataPedido).ToList();
+            return pedidos.OrderByDescending(p => p.dataAberturaPedido).ToList();
         }
 
         // Retorna as categorias do cardápio
@@ -104,7 +122,7 @@ namespace waiter_app_miyako.Services
             };
         }
 
-        // Retorna os produtos do cardápio
+        // Retorna os produtos do cardápio (Atualizado com a nova lista)
         public async Task<List<Produtos>> FetchProdutos()
         {
             await Delay(800);

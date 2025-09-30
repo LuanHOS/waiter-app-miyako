@@ -8,12 +8,15 @@ namespace waiter_app_miyako
         {
             InitializeComponent();
 
-            // Registrando as rotas para cada página da TabBar
+            // Registrando as rotas para cada página
             Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
             Routing.RegisterRoute(nameof(PedidosPage), typeof(PedidosPage));
             Routing.RegisterRoute(nameof(CardapioPage), typeof(CardapioPage));
             Routing.RegisterRoute(nameof(PerfilPage), typeof(PerfilPage));
             Routing.RegisterRoute(nameof(ConfiguracoesPage), typeof(ConfiguracoesPage));
+
+            // Nova rota registrada para a página de detalhes do pedido
+            Routing.RegisterRoute(nameof(PedidoDetalhesPage), typeof(PedidoDetalhesPage));
         }
     }
 }

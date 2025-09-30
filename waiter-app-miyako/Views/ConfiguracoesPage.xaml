@@ -11,7 +11,7 @@
             Text="DESLOGAR DA CONTA ATUAL"
             BackgroundColor="{StaticResource Red}"
             TextColor="White"
-            CornerRadius="25"
+            CornerRadius="10"
             HeightRequest="50"
             Clicked="OnDeslogarClicked" />
 

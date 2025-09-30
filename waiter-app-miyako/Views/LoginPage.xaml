@@ -82,7 +82,7 @@
                 <Button Text="ACESSAR"
                         BackgroundColor="{StaticResource Red}"
                         TextColor="White"
-                        CornerRadius="25"
+                        CornerRadius="10"
                         HeightRequest="50"
                         Margin="0,20,0,0"
                         Clicked="OnAcessarClicked" />
