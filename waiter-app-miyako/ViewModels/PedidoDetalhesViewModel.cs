@@ -17,7 +17,8 @@ namespace waiter_app_miyako.ViewModels
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsNotFinalizado));
                 OnPropertyChanged(nameof(ValorTotal));
-                OnPropertyChanged(nameof(QuantidadeTotalItens)); // Notifica a nova propriedade
+                // Notifica a interface sobre a nova propriedade
+                OnPropertyChanged(nameof(QuantidadeTotalItens));
             }
         }
 
@@ -25,7 +26,7 @@ namespace waiter_app_miyako.ViewModels
 
         public decimal ValorTotal => Pedido?.itens?.Sum(item => (item.produto?.preco ?? 0) * item.quantidade) ?? 0;
 
-        // Nova propriedade para contar a quantidade total de itens
+        // Nova propriedade para somar a quantidade de todos os itens
         public int QuantidadeTotalItens => Pedido?.itens?.Sum(item => item.quantidade) ?? 0;
 
         public event PropertyChangedEventHandler PropertyChanged;
