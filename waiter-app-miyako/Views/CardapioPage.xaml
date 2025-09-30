@@ -13,29 +13,22 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" RowDefinitions="Auto, *">
-
             <Grid Grid.Row="0" Padding="10" ColumnSpacing="10" RowSpacing="10" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
                 <Button Grid.Row="0" Grid.Column="0" Text="BARCAS" Clicked="OnNavegarParaSessaoClicked" CommandParameter="Barcas"/>
                 <Button Grid.Row="0" Grid.Column="1" Text="SUSHIS" Clicked="OnNavegarParaSessaoClicked" CommandParameter="Sushis"/>
                 <Button Grid.Row="1" Grid.Column="0" Text="PRATOS QUENTES" Clicked="OnNavegarParaSessaoClicked" CommandParameter="Pratos Quentes"/>
                 <Button Grid.Row="1" Grid.Column="1" Text="BEBIDAS" Clicked="OnNavegarParaSessaoClicked" CommandParameter="Bebidas"/>
             </Grid>
-
             <CollectionView 
                 Grid.Row="1"
                 x:Name="MenuCollectionView"
                 ItemsSource="{Binding CardapioAgrupado}"
                 IsGrouped="True">
-
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate x:DataType="viewmodels:GrupoDeProdutos">
-                        <Label Text="{Binding NomeDoGrupo}" 
-                               FontSize="22" 
-                               FontAttributes="Bold" 
-                               Padding="10,20,10,10"/>
+                        <Label Text="{Binding NomeDoGrupo}" FontSize="22" FontAttributes="Bold" Padding="10,20,10,10"/>
                     </DataTemplate>
                 </CollectionView.GroupHeaderTemplate>
-
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Produtos">
                         <Border StrokeShape="RoundRectangle 10" Padding="10" Margin="10,0,10,10">
@@ -53,9 +46,7 @@
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-
             </CollectionView>
-
         </Grid>
 
         <Border Grid.Row="1"
@@ -66,55 +57,51 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="20,20,0,0"/>
             </Border.StrokeShape>
-
             <VerticalStackLayout Spacing="0">
-
                 <Grid ColumnDefinitions="Auto, *, Auto" Padding="10,5,10,0" VerticalOptions="Start">
-
-                    <Button Grid.Column="0" 
-                            Text="▲" 
-                            TextColor="{StaticResource Red}"
-                            FontSize="25"
-                            BackgroundColor="Transparent"
-                            BorderWidth="0"
-                            Clicked="OnExpandirClicked" 
-                            HorizontalOptions="Start" 
-                            VerticalOptions="Center"/>
-
-                    <BoxView Grid.Column="1" x:Name="DragHandle"
-                             HeightRequest="5"
-                             WidthRequest="40"
-                             CornerRadius="2.5"
-                             BackgroundColor="{StaticResource Red}"
-                             HorizontalOptions="Center"
-                             VerticalOptions="Center"
-                             Margin="0,10,0,10">
+                    <Button Grid.Column="0" Text="▲" TextColor="{StaticResource Red}" FontSize="25" BackgroundColor="Transparent" BorderWidth="0" Clicked="OnExpandirClicked" HorizontalOptions="Start" VerticalOptions="Center"/>
+                    <BoxView Grid.Column="1" x:Name="DragHandle" HeightRequest="5" WidthRequest="40" CornerRadius="2.5" BackgroundColor="{StaticResource Red}" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,10,0,10">
                         <BoxView.GestureRecognizers>
                             <PanGestureRecognizer PanUpdated="OnPanUpdated" />
                         </BoxView.GestureRecognizers>
                     </BoxView>
-
-                    <Button Grid.Column="2" 
-                            Text="▼" 
-                            TextColor="{StaticResource Red}"
-                            FontSize="25"
-                            BackgroundColor="Transparent"
-                            BorderWidth="0"
-                            Clicked="OnMinimizarClicked" 
-                            HorizontalOptions="End" 
-                            VerticalOptions="Center"/>
+                    <Button Grid.Column="2" Text="▼" TextColor="{StaticResource Red}" FontSize="25" BackgroundColor="Transparent" BorderWidth="0" Clicked="OnMinimizarClicked" HorizontalOptions="End" VerticalOptions="Center"/>
                 </Grid>
 
-                <Label Text="PEDIDO"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Start"
-                       FontAttributes="Bold"
-                       FontSize="18"
-                       TextColor="{StaticResource Red}"
-                       Margin="0"/>
+                <Label Text="PEDIDO" HorizontalOptions="Center" VerticalOptions="Start" FontAttributes="Bold" FontSize="18" TextColor="{StaticResource Red}" Margin="0"/>
+
+                <VerticalStackLayout Padding="20,15,20,20" Spacing="15">
+
+                    <Grid RowDefinitions="Auto, Auto" RowSpacing="15">
+
+                        <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto, *" ColumnSpacing="10" VerticalOptions="Center">
+                            <Image Source="table_icon.png" WidthRequest="24" HeightRequest="24" VerticalOptions="Center"/>
+                            <Label Grid.Column="1" Text="Mesa" VerticalOptions="Center" FontAttributes="Bold"/>
+                            <Picker Grid.Column="2" 
+                                    ItemsSource="{Binding Mesas}"
+                                    ItemDisplayBinding="{Binding numeroMesa}"
+                                    HorizontalOptions="End" 
+                                    WidthRequest="150"
+                                    BackgroundColor="White"/>
+                        </Grid>
+
+                        <Grid Grid.Row="1" ColumnDefinitions="Auto, Auto, *" ColumnSpacing="10" VerticalOptions="Center">
+                            <Image Source="people_icon.png" WidthRequest="24" HeightRequest="24" VerticalOptions="Center"/>
+                            <Label Grid.Column="1" Text="Clientes" VerticalOptions="Center" FontAttributes="Bold"/>
+                            <Picker Grid.Column="2"
+                                    ItemsSource="{Binding NumeroClientes}"
+                                    HorizontalOptions="End" 
+                                    WidthRequest="150"
+                                    BackgroundColor="White"/>
+                        </Grid>
+
+                    </Grid>
+
+                    <BoxView HeightRequest="1" Color="Gray" />
+
+                </VerticalStackLayout>
 
             </VerticalStackLayout>
         </Border>
-
     </Grid>
 </ContentPage>

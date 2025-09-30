@@ -8,15 +8,10 @@ using waiter_app_miyako.Services;
 
 namespace waiter_app_miyako.ViewModels
 {
-    // Esta classe agora herda de List<Produtos> e tem uma propriedade para o nome
     public class GrupoDeProdutos : List<Produtos>
     {
         public string NomeDoGrupo { get; private set; }
-
-        public GrupoDeProdutos(string nomeDoGrupo, List<Produtos> produtos) : base(produtos)
-        {
-            NomeDoGrupo = nomeDoGrupo;
-        }
+        public GrupoDeProdutos(string nomeDoGrupo, List<Produtos> produtos) : base(produtos) { NomeDoGrupo = nomeDoGrupo; }
     }
 
     public class CardapioViewModel : INotifyPropertyChanged
@@ -25,14 +20,21 @@ namespace waiter_app_miyako.ViewModels
         public ObservableCollection<GrupoDeProdutos> CardapioAgrupado { get; } = new();
         public ObservableCollection<Grupos> Categorias { get; } = new();
 
-        public async Task CarregarCardapio()
+        // Propriedades para os Pickers
+        public ObservableCollection<Mesas> Mesas { get; } = new();
+        public List<int> NumeroClientes { get; } = new();
+
+        public CardapioViewModel()
+        {
+            for (int i = 1; i <= 20; i++) { NumeroClientes.Add(i); }
+        }
+
+        public async Task CarregarDadosIniciais()
         {
             var todosProdutos = await _apiService.FetchProdutos();
             var todasCategorias = await _apiService.FetchCategorias();
-
             CardapioAgrupado.Clear();
             Categorias.Clear();
-
             foreach (var categoria in todasCategorias)
             {
                 Categorias.Add(categoria);
@@ -41,6 +43,13 @@ namespace waiter_app_miyako.ViewModels
                 {
                     CardapioAgrupado.Add(new GrupoDeProdutos(categoria.descricao, produtosDoGrupo));
                 }
+            }
+
+            var mesasDaApi = await _apiService.FetchMesas();
+            Mesas.Clear();
+            foreach (var mesa in mesasDaApi)
+            {
+                Mesas.Add(mesa);
             }
         }
 

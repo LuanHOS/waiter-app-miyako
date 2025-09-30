@@ -6,36 +6,28 @@ namespace waiter_app_miyako.Views
 {
     public partial class CardapioPage : ContentPage
     {
-        // ===== Configurações em porcentagem (0.0 a 1.0) =====
-        private double _minPct = 0.12;         // Minimizada
-        private double _halfPct = 0.50;        // Metade da tela
-        private double _maxPct = 1.00;         // Até o topo
-        private double _snapThresholdPct = 0.07; // Limiar de "imã"
-
-        // Altura em px calculada dinamicamente a partir das porcentagens
+        private double _minPct = 0.12;
+        private double _halfPct = 0.50;
+        private double _maxPct = 1.00;
+        private double _snapThresholdPct = 0.07;
         private double _minHeight, _halfHeight, _maxHeight, _snapThreshold;
-
-        // Estado e controle do gesto
         private double _alturaInicialArraste;
-
         private enum SheetState { Minimizada, Metade, Expandida }
         private SheetState _estadoAtual = SheetState.Minimizada;
-
-        // ViewModel para gerenciar os dados do cardápio
         private readonly CardapioViewModel _viewModel;
 
         public CardapioPage()
         {
             InitializeComponent();
             _viewModel = new CardapioViewModel();
-            this.BindingContext = _viewModel; // Define o BindingContext da página
+            this.BindingContext = _viewModel;
             MainGrid.SizeChanged += MainGrid_SizeChanged;
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await _viewModel.CarregarCardapio(); // Carrega os dados através da ViewModel
+            await _viewModel.CarregarDadosIniciais();
             RecalcularAncoras();
             SnapTo(SheetState.Minimizada, animated: false);
         }
@@ -53,19 +45,9 @@ namespace waiter_app_miyako.Views
             SnapTo(estadoAntes, animated: false);
         }
 
-        // ============== LÓGICA DE CONTROLE DO BOTTOMSHEET ==============
-        private void OnExpandirClicked(object sender, EventArgs e)
-        {
-            SnapTo(SheetState.Expandida);
-        }
+        private void OnExpandirClicked(object sender, EventArgs e) => SnapTo(SheetState.Expandida);
+        private void OnMinimizarClicked(object sender, EventArgs e) => SnapTo(SheetState.Minimizada);
 
-        private void OnMinimizarClicked(object sender, EventArgs e)
-        {
-            SnapTo(SheetState.Minimizada);
-        }
-        // ===============================================================
-
-        // ============== LÓGICA DE SCROLL ==============
         private void OnNavegarParaSessaoClicked(object sender, EventArgs e)
         {
             if (sender is Button button && button.CommandParameter is string nomeDoGrupo)
@@ -73,10 +55,7 @@ namespace waiter_app_miyako.Views
                 var groupIndex = _viewModel.CardapioAgrupado
                     .Select((g, idx) => new { g, idx })
                     .FirstOrDefault(x => string.Equals(x.g.NomeDoGrupo, nomeDoGrupo, StringComparison.OrdinalIgnoreCase))?.idx ?? -1;
-
                 if (groupIndex < 0) return;
-
-                // itemIndex = 0 (primeiro item do grupo)
                 MenuCollectionView.ScrollTo(0, groupIndex, ScrollToPosition.Start, true);
             }
         }
@@ -88,13 +67,10 @@ namespace waiter_app_miyako.Views
                 await Navigation.PushAsync(new ItemDetalhesPage(produto));
             }
         }
-        // =====================================================
 
-        // ============== Gesto de arraste (Pan) ===============
         private void OnPanUpdated(object sender, PanUpdatedEventArgs e)
         {
             if (MainGrid.Height <= 0) return;
-
             switch (e.StatusType)
             {
                 case GestureStatus.Started:
@@ -102,28 +78,22 @@ namespace waiter_app_miyako.Views
                     RecalcularAncoras();
                     _alturaInicialArraste = BottomSheetRow.Height.Value;
                     break;
-
                 case GestureStatus.Running:
                     var novaAltura = _alturaInicialArraste - e.TotalY;
                     novaAltura = Math.Clamp(novaAltura, _minHeight, _maxHeight);
                     SetHeight(novaAltura);
                     break;
-
                 case GestureStatus.Completed:
                 case GestureStatus.Canceled:
-                    var alturaFinal = BottomSheetRow.Height.Value;
-                    SnapSmart(alturaFinal);
+                    SnapSmart(BottomSheetRow.Height.Value);
                     break;
             }
         }
-        // =====================================================
 
-        // ============== LÓGICA DE SNAP ==============
         private void RecalcularAncoras()
         {
             double total = MainGrid?.Height ?? 0;
             if (total <= 0) return;
-
             _minHeight = total * _minPct;
             _halfHeight = total * _halfPct;
             _maxHeight = total * _maxPct;
@@ -134,24 +104,17 @@ namespace waiter_app_miyako.Views
         {
             var delta = alturaSolta - _alturaInicialArraste;
             var anchors = Anchors();
-
-            // Movimento grande: vá para a próxima âncora na direção do arraste
             if (Math.Abs(delta) > _snapThreshold)
             {
                 double target;
-                if (delta > 0) // Puxou pra cima: aumenta a altura
-                {
+                if (delta > 0)
                     target = anchors.Where(a => a > _alturaInicialArraste).DefaultIfEmpty(_maxHeight).Min();
-                }
-                else // Puxou pra baixo: diminui a altura
-                {
+                else
                     target = anchors.Where(a => a < _alturaInicialArraste).DefaultIfEmpty(_minHeight).Max();
-                }
                 SnapTo(ClosestState(target));
             }
             else
             {
-                // Movimento curto: imã para a âncora mais próxima
                 SnapToNearest(alturaSolta);
             }
         }
@@ -160,10 +123,8 @@ namespace waiter_app_miyako.Views
         {
             var anchors = Anchors();
             var states = new[] { SheetState.Minimizada, SheetState.Metade, SheetState.Expandida };
-
             int idxMelhor = 0;
             double melhor = double.MaxValue;
-
             for (int i = 0; i < anchors.Length; i++)
             {
                 var dist = Math.Abs(alturaAtual - anchors[i]);
@@ -173,7 +134,6 @@ namespace waiter_app_miyako.Views
                     idxMelhor = i;
                 }
             }
-
             SnapTo(states[idxMelhor], animated);
         }
 
@@ -186,12 +146,10 @@ namespace waiter_app_miyako.Views
                 SheetState.Expandida => _maxHeight,
                 _ => _minHeight
             };
-
             if (animated)
                 AnimateHeight(BottomSheetRow.Height.Value, destino, 200, Easing.CubicOut);
             else
                 SetHeight(destino);
-
             _estadoAtual = state;
         }
 
@@ -199,7 +157,6 @@ namespace waiter_app_miyako.Views
         {
             var anchors = Anchors();
             var states = new[] { SheetState.Minimizada, SheetState.Metade, SheetState.Expandida };
-
             int idx = 0;
             double best = double.MaxValue;
             for (int i = 0; i < anchors.Length; i++)
@@ -215,13 +172,7 @@ namespace waiter_app_miyako.Views
         }
 
         private double[] Anchors() => new[] { _minHeight, _halfHeight, _maxHeight };
-        // =====================================================
-
-        // =================== Utilitários =====================
-        private void SetHeight(double h)
-        {
-            BottomSheetRow.Height = new GridLength(h);
-        }
+        private void SetHeight(double h) => BottomSheetRow.Height = new GridLength(h);
 
         private void AnimateHeight(double from, double to, uint length, Easing easing)
         {
@@ -229,6 +180,5 @@ namespace waiter_app_miyako.Views
             var anim = new Animation(v => BottomSheetRow.Height = new GridLength(v), from, to);
             anim.Commit(this, "BottomSheetAnim", length: length, easing: easing ?? Easing.CubicOut);
         }
-        // =====================================================
     }
 }
