@@ -43,7 +43,7 @@
                                 <TapGestureRecognizer Tapped="OnItemTapped" CommandParameter="{Binding .}"/>
                             </Border.GestureRecognizers>
                             <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
-                                <Image Source="dotnet_bot.png" WidthRequest="80" HeightRequest="80" Aspect="AspectFill"/>
+                                <Image Source="{Binding imagem, TargetNullValue='dotnet_bot.png'}" WidthRequest="80" HeightRequest="80" Aspect="AspectFill"/>
                                 <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
                                     <Label Text="{Binding descricao}" FontAttributes="Bold" />
                                     <Label Text="{Binding ingredientes}" FontSize="12" />
@@ -57,6 +57,7 @@
             </CollectionView>
 
         </Grid>
+
         <Border Grid.Row="1"
                 x:Name="BottomSheet"
                 BackgroundColor="LightGray"
@@ -65,19 +66,44 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="20,20,0,0"/>
             </Border.StrokeShape>
-            <VerticalStackLayout>
-                <BoxView x:Name="DragHandle"
-                         HeightRequest="5"
-                         WidthRequest="40"
-                         CornerRadius="2.5"
-                         BackgroundColor="{StaticResource Red}"
-                         HorizontalOptions="Center"
-                         VerticalOptions="Start"
-                         Margin="0,10,0,10">
-                    <BoxView.GestureRecognizers>
-                        <PanGestureRecognizer PanUpdated="OnPanUpdated" />
-                    </BoxView.GestureRecognizers>
-                </BoxView>
+
+            <VerticalStackLayout Spacing="0">
+
+                <Grid ColumnDefinitions="Auto, *, Auto" Padding="10,5,10,0" VerticalOptions="Start">
+
+                    <Button Grid.Column="0" 
+                            Text="▲" 
+                            TextColor="{StaticResource Red}"
+                            FontSize="25"
+                            BackgroundColor="Transparent"
+                            BorderWidth="0"
+                            Clicked="OnExpandirClicked" 
+                            HorizontalOptions="Start" 
+                            VerticalOptions="Center"/>
+
+                    <BoxView Grid.Column="1" x:Name="DragHandle"
+                             HeightRequest="5"
+                             WidthRequest="40"
+                             CornerRadius="2.5"
+                             BackgroundColor="{StaticResource Red}"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             Margin="0,10,0,10">
+                        <BoxView.GestureRecognizers>
+                            <PanGestureRecognizer PanUpdated="OnPanUpdated" />
+                        </BoxView.GestureRecognizers>
+                    </BoxView>
+
+                    <Button Grid.Column="2" 
+                            Text="▼" 
+                            TextColor="{StaticResource Red}"
+                            FontSize="25"
+                            BackgroundColor="Transparent"
+                            BorderWidth="0"
+                            Clicked="OnMinimizarClicked" 
+                            HorizontalOptions="End" 
+                            VerticalOptions="Center"/>
+                </Grid>
 
                 <Label Text="PEDIDO"
                        HorizontalOptions="Center"
@@ -85,7 +111,7 @@
                        FontAttributes="Bold"
                        FontSize="18"
                        TextColor="{StaticResource Red}"
-                       Margin="0,20,0,0"/>
+                       Margin="0"/>
 
             </VerticalStackLayout>
         </Border>

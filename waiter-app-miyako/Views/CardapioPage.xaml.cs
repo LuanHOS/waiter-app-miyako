@@ -53,6 +53,18 @@ namespace waiter_app_miyako.Views
             SnapTo(estadoAntes, animated: false);
         }
 
+        // ============== LÓGICA DE CONTROLE DO BOTTOMSHEET ==============
+        private void OnExpandirClicked(object sender, EventArgs e)
+        {
+            SnapTo(SheetState.Expandida);
+        }
+
+        private void OnMinimizarClicked(object sender, EventArgs e)
+        {
+            SnapTo(SheetState.Minimizada);
+        }
+        // ===============================================================
+
         // ============== LÓGICA DE SCROLL ==============
         private void OnNavegarParaSessaoClicked(object sender, EventArgs e)
         {
