@@ -25,7 +25,8 @@ public partial class PedidoDetalhesPage : ContentPage
     {
         if (e.Parameter is ItemPedidoDetalheViewModel item)
         {
-            if (!item.IsEntregue)
+            // Permite alterar a seleção apenas se o item não estiver entregue OU cancelado
+            if (!item.IsEntregue && !item.IsCancelado)
             {
                 item.IsSelecionado = !item.IsSelecionado;
             }
@@ -45,7 +46,6 @@ public partial class PedidoDetalhesPage : ContentPage
         }
     }
 
-    // Novo método para o pop-up de fechar a conta
     private async void FecharConta_Clicked(object sender, EventArgs e)
     {
         bool confirmar = await DisplayAlert(
@@ -56,6 +56,20 @@ public partial class PedidoDetalhesPage : ContentPage
         if (confirmar)
         {
             // Lógica para fechar a conta
+        }
+    }
+
+    // Novo método para o botão de cancelar
+    private async void MarcarCancelado_Clicked(object sender, EventArgs e)
+    {
+        bool confirmar = await DisplayAlert(
+            "Confirmar Cancelamento",
+            "Deseja marcar os itens selecionados como Cancelados? Esta ação é irreversível.",
+            "Sim", "Não");
+
+        if (confirmar)
+        {
+            // Lógica para marcar itens como cancelados
         }
     }
 }

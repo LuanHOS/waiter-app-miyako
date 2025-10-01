@@ -74,7 +74,8 @@ namespace waiter_app_miyako.Services
                     finalizado = false,
                     itens = new List<ItensPedidos> {
                         new ItensPedidos { produto = produtos.First(p => p.id == 401), quantidade = 2, Status = "aberto" },
-                        new ItensPedidos { produto = produtos.First(p => p.id == 201), quantidade = 4, Status = "entregue" }
+                        new ItensPedidos { produto = produtos.First(p => p.id == 201), quantidade = 4, Status = "entregue" },
+                        new ItensPedidos { produto = produtos.First(p => p.id == 101), quantidade = 1, Status = "cancelado" } // Item cancelado
                     }
                 },
                 new Pedidos {
