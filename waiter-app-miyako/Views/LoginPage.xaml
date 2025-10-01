@@ -70,11 +70,6 @@
                                    PlaceholderColor="Gray"
                                    IsPassword="True"
                                    VerticalOptions="Center" />
-                            <Image Grid.Column="2"
-                                   Source="eye_icon.png"
-                                   WidthRequest="24"
-                                   HeightRequest="24"
-                                   VerticalOptions="Center" />
                         </Grid>
                     </Border>
                 </VerticalStackLayout>
