@@ -22,11 +22,14 @@ namespace waiter_app_miyako.ViewModels
             }
         }
 
+        // Nova propriedade para verificar se o item já foi entregue
+        public bool IsEntregue => Item.Status == "entregue";
+
         public ItemPedidoDetalheViewModel(ItensPedidos item)
         {
             Item = item;
-            // Itens com status "aberto" começam desmarcados
-            IsSelecionado = item.Status != "aberto";
+            // Itens com status "entregue" já vêm marcados e serão desabilitados na UI
+            IsSelecionado = IsEntregue;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

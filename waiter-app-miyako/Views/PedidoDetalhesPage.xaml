@@ -61,19 +61,19 @@
                 <VerticalStackLayout Spacing="15">
                     <Label Text="INFORMAÇÕES" FontSize="16" HorizontalOptions="Center" FontAttributes="Bold"/>
 
-                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" ColumnSpacing="20">
-                        <HorizontalStackLayout Grid.Column="0" Spacing="10" VerticalOptions="Center">
+                    <VerticalStackLayout Spacing="15">
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
                             <Image Source="table_icon.png" HeightRequest="24" WidthRequest="24"/>
                             <Label Text="Mesa:" FontAttributes="Bold" FontSize="16" VerticalOptions="Center"/>
                             <Label Text="{Binding Pedido.mesaNumero, StringFormat='{0:00}'}" FontSize="16" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
 
-                        <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center" HorizontalOptions="End">
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
                             <Image Source="people_icon.png" HeightRequest="24" WidthRequest="24"/>
                             <Label Text="Clientes:" FontAttributes="Bold" FontSize="16" VerticalOptions="Center"/>
                             <Label Text="{Binding Pedido.clientes}" FontSize="16" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
-                    </Grid>
+                    </VerticalStackLayout>
 
                     <BoxView HeightRequest="1" Color="LightGray" Margin="0,5"/>
 
@@ -100,13 +100,32 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
-                                    <CheckBox Grid.Column="0" IsChecked="{Binding IsSelecionado}" VerticalOptions="Center"/>
+                                    <CheckBox Grid.Column="0" IsChecked="{Binding IsSelecionado}" VerticalOptions="Center">
+                                        <CheckBox.Triggers>
+                                            <DataTrigger TargetType="CheckBox" Binding="{Binding IsEntregue}" Value="True">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                        </CheckBox.Triggers>
+                                    </CheckBox>
 
                                     <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center" Margin="10,0">
-                                        <Label Text="{Binding Item.produto.descricao}" FontAttributes="Bold" />
+                                        <Label Text="{Binding Item.produto.descricao}" FontAttributes="Bold">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding IsEntregue}" Value="True">
+                                                    <Setter Property="TextColor" Value="Gray" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <Label Text="{Binding Item.produto.preco, StringFormat='R$ {0:F2}'}" FontSize="12" TextColor="Gray"/>
                                     </VerticalStackLayout>
 
-                                    <Label Grid.Column="2" VerticalOptions="Center" Text="{Binding Item.quantidade, StringFormat='x{0}'}" FontAttributes="Bold" FontSize="18" />
+                                    <Label Grid.Column="2" VerticalOptions="Center" Text="{Binding Item.quantidade, StringFormat='x{0}'}" FontAttributes="Bold" FontSize="18">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsEntregue}" Value="True">
+                                                <Setter Property="TextColor" Value="Gray" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
                                 </Grid>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>

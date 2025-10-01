@@ -25,8 +25,11 @@ public partial class PedidoDetalhesPage : ContentPage
     {
         if (e.Parameter is ItemPedidoDetalheViewModel item)
         {
-            // Inverte o estado de seleção do item clicado
-            item.IsSelecionado = !item.IsSelecionado;
+            // Permite alterar a seleção apenas se o item não estiver entregue
+            if (!item.IsEntregue)
+            {
+                item.IsSelecionado = !item.IsSelecionado;
+            }
         }
     }
 
