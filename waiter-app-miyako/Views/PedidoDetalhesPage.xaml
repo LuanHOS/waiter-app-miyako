@@ -146,8 +146,10 @@
                             <Label Text="Clientes:" FontAttributes="Bold" FontSize="16" VerticalOptions="Center"/>
                             <Label Text="{Binding Pedido.clientes}" FontSize="16" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
-                        <Label Text="{Binding Pedido.dataAberturaPedido, StringFormat='Data: {0:dd/MM/yyyy}'}" />
-                        <Label Text="{Binding Pedido.dataAberturaPedido, StringFormat='Horário: {0:HH:mm}'}" />
+                        <Label Text="{Binding Pedido.dataAberturaPedido, StringFormat='Data Abertura: {0:dd/MM/yyyy}'}" />
+                        <Label Text="{Binding Pedido.dataAberturaPedido, StringFormat='Horário Abertura: {0:HH:mm}'}" />
+                        <Label Text="{Binding Pedido.dataConclusaoPedido, StringFormat='Data Conclusão: {0:dd/MM/yyyy}'}" />
+                        <Label Text="{Binding Pedido.dataConclusaoPedido, StringFormat='Horário Conclusão: {0:HH:mm}'}" />
                         <Label Text="{Binding QuantidadeTotalItens, StringFormat='Quantidade de Itens: {0}'}" />
                     </VerticalStackLayout>
                     <BoxView HeightRequest="1" Color="LightGray" Margin="0,5"/>

@@ -97,7 +97,7 @@ namespace waiter_app_miyako.Services
                     funcionario = funcionario,
                     observacao = "Cliente alérgico a camarão.",
                     dataAberturaPedido = new DateTime(2025, 10, 01, 19, 0, 0),
-                    dataConclusaoPedido = new DateTime(2025, 9, 30, 20, 0, 0),
+                    dataConclusaoPedido = new DateTime(2025, 10, 01, 19, 45, 0),
                     finalizado = true,
                     itens = new List<ItensPedidos> {
                         new ItensPedidos { produto = produtos.First(p => p.id == 301), quantidade = 1, Status = "entregue" },
