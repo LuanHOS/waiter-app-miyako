@@ -9,11 +9,13 @@
 
             <VerticalStackLayout Spacing="10">
                 <HorizontalStackLayout Spacing="10" VerticalOptions="Center" HorizontalOptions="Center">
-                    <Image Source="clock_icon.png" HeightRequest="24" WidthRequest="24" />
+                    <Image Source="red_clock_icon.png" HeightRequest="24" WidthRequest="24" />
                     <Label Text="EM ANDAMENTO" 
+                           TextColor="{StaticResource Red}"
                            FontAttributes="Bold"
                            FontSize="18"
                            VerticalOptions="Center"/>
+                    <Image Source="green_circle_icon.png" HeightRequest="10" WidthRequest="10" />
                 </HorizontalStackLayout>
                 <VerticalStackLayout x:Name="EmAndamentoList" Spacing="8">
                     <Grid ColumnDefinitions="*,*,*,Auto" Padding="10,5">
@@ -26,8 +28,9 @@
 
             <VerticalStackLayout Spacing="10">
                 <HorizontalStackLayout Spacing="10" VerticalOptions="Center" HorizontalOptions="Center">
-                    <Image Source="success_icon.png" HeightRequest="24" WidthRequest="24" />
+                    <Image Source="finalized_icon.png" HeightRequest="24" WidthRequest="24" />
                     <Label Text="FINALIZADOS HOJE" 
+                           TextColor="{StaticResource Red}"
                            FontAttributes="Bold" 
                            FontSize="18"
                            VerticalOptions="Center"/>
