@@ -23,6 +23,9 @@
                 <DataTrigger TargetType="Button" Binding="{Binding Status}" Value="atencao">
                     <Setter Property="BackgroundColor" Value="Yellow" />
                 </DataTrigger>
+                <DataTrigger TargetType="Button" Binding="{Binding Status}" Value="reservada">
+                    <Setter Property="BackgroundColor" Value="LightGray" />
+                </DataTrigger>
             </Style.Triggers>
         </Style>
     </ContentPage.Resources>
@@ -30,14 +33,12 @@
     <ScrollView Padding="50">
         <VerticalStackLayout Spacing="20">
 
-            <!-- Título -->
             <Label Text="Mesas"
                FontSize="36"
                FontAttributes="Bold"
                HorizontalOptions="Center"
                HorizontalTextAlignment="Center"/>
 
-            <!-- Grid de Mesas -->
             <CollectionView ItemsSource="{Binding Mesas}">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical"
@@ -49,13 +50,13 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:MesaViewModel">
                         <Button Text="{Binding Numero}"
-                            Style="{StaticResource MesaButtonStyle}" />
+                            Style="{StaticResource MesaButtonStyle}"
+                            Clicked="OnMesaClicked" />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
         </VerticalStackLayout>
     </ScrollView>
-
 
 </ContentPage>
