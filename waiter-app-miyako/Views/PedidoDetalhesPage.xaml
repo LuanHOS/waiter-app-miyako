@@ -55,7 +55,6 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-
                                     <CheckBox Grid.Column="0" IsChecked="{Binding IsSelecionado}" VerticalOptions="Center">
                                         <CheckBox.Triggers>
                                             <DataTrigger TargetType="CheckBox" Binding="{Binding IsEntregue}" Value="True">
@@ -66,7 +65,6 @@
                                             </DataTrigger>
                                         </CheckBox.Triggers>
                                     </CheckBox>
-
                                     <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center" Margin="10,0">
                                         <Label Text="{Binding Item.produto.descricao}" FontAttributes="Bold">
                                             <Label.Triggers>
@@ -74,21 +72,20 @@
                                                     <Setter Property="TextColor" Value="Green" />
                                                 </DataTrigger>
                                                 <DataTrigger TargetType="Label" Binding="{Binding IsCancelado}" Value="True">
-                                                    <Setter Property="TextColor" Value="Red" />
+                                                    <Setter Property="TextColor" Value="#F08080" />
                                                     <Setter Property="TextDecorations" Value="Strikethrough" />
                                                 </DataTrigger>
                                             </Label.Triggers>
                                         </Label>
                                         <Label Text="{Binding Item.produto.preco, StringFormat='R$ {0:F2}'}" FontSize="12" TextColor="Gray"/>
                                     </VerticalStackLayout>
-
                                     <Label Grid.Column="2" VerticalOptions="Center" Text="{Binding Item.quantidade, StringFormat='x{0}'}" FontAttributes="Bold" FontSize="18">
                                         <Label.Triggers>
                                             <DataTrigger TargetType="Label" Binding="{Binding IsEntregue}" Value="True">
                                                 <Setter Property="TextColor" Value="Green" />
                                             </DataTrigger>
                                             <DataTrigger TargetType="Label" Binding="{Binding IsCancelado}" Value="True">
-                                                <Setter Property="TextColor" Value="Red" />
+                                                <Setter Property="TextColor" Value="#F08080" />
                                                 <Setter Property="TextDecorations" Value="Strikethrough" />
                                             </DataTrigger>
                                         </Label.Triggers>
@@ -97,12 +94,10 @@
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </VerticalStackLayout>
-
                     <VerticalStackLayout Spacing="10" Margin="0,10,0,0">
                         <Button Text="MARCAR COMO ENTREGUE" BackgroundColor="{StaticResource Red}" Clicked="MarcarEntregue_Clicked"/>
                         <Button Text="MARCAR COMO CANCELADO" BackgroundColor="Gray" Clicked="MarcarCancelado_Clicked"/>
                     </VerticalStackLayout>
-
                     <BoxView HeightRequest="1" Color="LightGray" Margin="0,15,0,5"/>
                     <VerticalStackLayout Spacing="5" IsVisible="{Binding HasObservacao}">
                         <Label Text="OBSERVAÇÕES" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center"/>
@@ -170,10 +165,24 @@
                                 <Grid Padding="0,10" ColumnDefinitions="Auto,*,Auto">
                                     <Image Grid.Column="0" Source="order_check_icon.png" WidthRequest="24" HeightRequest="24" VerticalOptions="Center"/>
                                     <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center" Margin="10,0">
-                                        <Label Text="{Binding Item.produto.descricao}" FontAttributes="Bold" TextColor="Gray" />
+                                        <Label Text="{Binding Item.produto.descricao}" FontAttributes="Bold" TextColor="Gray">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding IsCancelado}" Value="True">
+                                                    <Setter Property="TextColor" Value="#F08080" />
+                                                    <Setter Property="TextDecorations" Value="Strikethrough" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
                                         <Label Text="{Binding Item.produto.preco, StringFormat='R$ {0:F2}'}" FontSize="12" TextColor="Gray"/>
                                     </VerticalStackLayout>
-                                    <Label Grid.Column="2" VerticalOptions="Center" Text="{Binding Item.quantidade, StringFormat='x{0}'}" FontAttributes="Bold" FontSize="18" TextColor="Gray"/>
+                                    <Label Grid.Column="2" VerticalOptions="Center" Text="{Binding Item.quantidade, StringFormat='x{0}'}" FontAttributes="Bold" FontSize="18" TextColor="Gray">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsCancelado}" Value="True">
+                                                <Setter Property="TextColor" Value="#F08080" />
+                                                <Setter Property="TextDecorations" Value="Strikethrough" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
                                 </Grid>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
