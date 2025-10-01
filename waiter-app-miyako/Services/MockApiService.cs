@@ -70,7 +70,7 @@ namespace waiter_app_miyako.Services
                     mesa = new Mesas { numeroMesa = 8 },
                     funcionario = funcionario,
                     observacao = "Cliente pediu guardanapos extras.",
-                    dataAberturaPedido = new DateTime(2025, 9, 30, 20, 30, 0),
+                    dataAberturaPedido = new DateTime(2025, 10, 01, 20, 30, 0),
                     finalizado = false,
                     itens = new List<ItensPedidos> {
                         new ItensPedidos { produto = produtos.First(p => p.id == 401), quantidade = 2, Status = "aberto" },
@@ -84,7 +84,7 @@ namespace waiter_app_miyako.Services
                     mesa = new Mesas { numeroMesa = 10 },
                     funcionario = funcionario,
                     observacao = "Sem observações.",
-                    dataAberturaPedido = new DateTime(2025, 9, 30, 20, 0, 0),
+                    dataAberturaPedido = new DateTime(2025, 10, 01, 20, 0, 0),
                     finalizado = false,
                     itens = new List<ItensPedidos> {
                         new ItensPedidos { produto = produtos.First(p => p.id == 102), quantidade = 1, Status = "aberto" }
@@ -97,7 +97,7 @@ namespace waiter_app_miyako.Services
                     mesa = new Mesas { numeroMesa = 3 },
                     funcionario = funcionario,
                     observacao = "Cliente alérgico a camarão.",
-                    dataAberturaPedido = new DateTime(2025, 9, 30, 19, 0, 0),
+                    dataAberturaPedido = new DateTime(2025, 10, 01, 19, 0, 0),
                     dataConclusaoPedido = new DateTime(2025, 9, 30, 20, 0, 0),
                     finalizado = true,
                     itens = new List<ItensPedidos> {

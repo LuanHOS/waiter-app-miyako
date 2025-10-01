@@ -1,92 +1,127 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:waiter_app_miyako.ViewModels"
              x:Class="waiter_app_miyako.Views.PedidoDetalhesPage"
              Title="Detalhes do Pedido"
              BackgroundColor="#3C3C3C">
 
-    <VerticalStackLayout Spacing="15" Padding="15">
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="15">
 
-        <Border StrokeShape="RoundRectangle 20"
-                BackgroundColor="White"
-                Padding="20"
-                HorizontalOptions="Fill"
-                IsVisible="{Binding IsNotFinalizado}">
+            <Border StrokeShape="RoundRectangle 20"
+                    BackgroundColor="White"
+                    Padding="20"
+                    HorizontalOptions="Fill"
+                    IsVisible="{Binding IsNotFinalizado}">
 
-            <VerticalStackLayout Spacing="30">
+                <VerticalStackLayout Spacing="30">
 
-                <HorizontalStackLayout HorizontalOptions="Center" Spacing="10" VerticalOptions="Center" Margin="0,10,0,10">
-                    <Image Source="red_clock_icon.png" HeightRequest="24" WidthRequest="24" />
-                    <Label Text="EM ANDAMENTO" TextColor="{StaticResource Red}" FontAttributes="Bold" FontSize="22" VerticalOptions="Center"/>
-                    <Image Source="green_circle_icon.png" HeightRequest="24" WidthRequest="24" />
-                </HorizontalStackLayout>
-
-                <VerticalStackLayout Spacing="25">
-                    <HorizontalStackLayout Spacing="15" VerticalOptions="Center">
-                        <Image Source="table_icon.png" HeightRequest="30" WidthRequest="30"/>
-                        <Label Text="Mesa" FontAttributes="Bold" FontSize="20" VerticalOptions="Center"/>
-                        <Label Text="{Binding Pedido.mesaNumero, StringFormat='{0:00}'}" FontSize="20" VerticalOptions="Center"/>
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="10" VerticalOptions="Center" Margin="0,10,0,10">
+                        <Image Source="red_clock_icon.png" HeightRequest="24" WidthRequest="24" />
+                        <Label Text="EM ANDAMENTO" TextColor="{StaticResource Red}" FontAttributes="Bold" FontSize="22" VerticalOptions="Center"/>
+                        <Image Source="green_circle_icon.png" HeightRequest="12" WidthRequest="12" />
                     </HorizontalStackLayout>
 
-                    <HorizontalStackLayout Spacing="15" VerticalOptions="Center">
-                        <Image Source="people_icon.png" HeightRequest="30" WidthRequest="30"/>
-                        <Label Text="Clientes" FontAttributes="Bold" FontSize="20" VerticalOptions="Center"/>
-                        <Label Text="{Binding Pedido.clientes}" FontSize="20" VerticalOptions="Center"/>
-                    </HorizontalStackLayout>
+                    <VerticalStackLayout Spacing="25">
+                        <HorizontalStackLayout Spacing="15" VerticalOptions="Center">
+                            <Image Source="table_icon.png" HeightRequest="30" WidthRequest="30"/>
+                            <Label Text="Mesa" FontAttributes="Bold" FontSize="20" VerticalOptions="Center"/>
+                            <Label Text="{Binding Pedido.mesaNumero, StringFormat='{0:00}'}" FontSize="20" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
 
-                    <HorizontalStackLayout Spacing="15" VerticalOptions="Center">
-                        <Image Source="ticket_icon.png" HeightRequest="30" WidthRequest="30"/>
-                        <Label Text="Total (R$)" TextColor="{StaticResource Red}" FontAttributes="Bold" FontSize="20" VerticalOptions="Center"/>
-                        <Label Text="{Binding ValorTotal, StringFormat='{0:F2}'}" TextColor="{StaticResource Red}" FontAttributes="Bold" FontSize="20" VerticalOptions="Center"/>
-                    </HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="15" VerticalOptions="Center">
+                            <Image Source="people_icon.png" HeightRequest="30" WidthRequest="30"/>
+                            <Label Text="Clientes" FontAttributes="Bold" FontSize="20" VerticalOptions="Center"/>
+                            <Label Text="{Binding Pedido.clientes}" FontSize="20" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Spacing="15" VerticalOptions="Center">
+                            <Image Source="ticket_icon.png" HeightRequest="30" WidthRequest="30"/>
+                            <Label Text="Total (R$)" TextColor="{StaticResource Red}" FontAttributes="Bold" FontSize="20" VerticalOptions="Center"/>
+                            <Label Text="{Binding ValorTotal, StringFormat='{0:F2}'}" TextColor="{StaticResource Red}" FontAttributes="Bold" FontSize="20" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="15" Margin="0,15,0,0">
+                        <Button Grid.Column="0" Text="EDITAR PEDIDO" BackgroundColor="Gray" FontSize="16" HeightRequest="55"/>
+                        <Button Grid.Column="1" Text="FECHAR CONTA" BackgroundColor="{StaticResource Red}" FontSize="16" HeightRequest="55"/>
+                    </Grid>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <Border StrokeShape="RoundRectangle 20"
+                    BackgroundColor="White"
+                    Padding="20"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill"
+                    IsVisible="{Binding IsNotFinalizado}">
+
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="INFORMAÇÕES" FontSize="16" HorizontalOptions="Center" FontAttributes="Bold"/>
+
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" ColumnSpacing="20">
+                        <HorizontalStackLayout Grid.Column="0" Spacing="10" VerticalOptions="Center">
+                            <Image Source="table_icon.png" HeightRequest="24" WidthRequest="24"/>
+                            <Label Text="Mesa:" FontAttributes="Bold" FontSize="16" VerticalOptions="Center"/>
+                            <Label Text="{Binding Pedido.mesaNumero, StringFormat='{0:00}'}" FontSize="16" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center" HorizontalOptions="End">
+                            <Image Source="people_icon.png" HeightRequest="24" WidthRequest="24"/>
+                            <Label Text="Clientes:" FontAttributes="Bold" FontSize="16" VerticalOptions="Center"/>
+                            <Label Text="{Binding Pedido.clientes}" FontSize="16" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Grid>
+
+                    <BoxView HeightRequest="1" Color="LightGray" Margin="0,5"/>
+
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="{Binding Pedido.dataAberturaPedido, StringFormat='Data: {0:dd/MM/yyyy}'}" />
+                        <Label Text="{Binding Pedido.dataAberturaPedido, StringFormat='Horário: {0:HH:mm}'}" />
+                        <Label Text="{Binding QuantidadeTotalItens, StringFormat='Quantidade de Itens: {0}'}" />
+                    </VerticalStackLayout>
+
+                    <BoxView HeightRequest="1" Color="LightGray" Margin="0,5"/>
+
+                    <Label Text="ITENS DO PEDIDO" FontAttributes="Bold" HorizontalOptions="Center" />
+
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding ItensDoPedido}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="viewmodels:ItemPedidoDetalheViewModel">
+                                <Grid Padding="0,10">
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnItemTapped" CommandParameter="{Binding .}"/>
+                                    </Grid.GestureRecognizers>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <CheckBox Grid.Column="0" IsChecked="{Binding IsSelecionado}" VerticalOptions="Center"/>
+
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center" Margin="10,0">
+                                        <Label Text="{Binding Item.produto.descricao}" FontAttributes="Bold" />
+                                    </VerticalStackLayout>
+
+                                    <Label Grid.Column="2" VerticalOptions="Center" Text="{Binding Item.quantidade, StringFormat='x{0}'}" FontAttributes="Bold" FontSize="18" />
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+
+                    <Button Text="MARCAR COMO ENTREGUE" 
+                            BackgroundColor="{StaticResource Red}"
+                            Margin="0,15,0,0"
+                            Clicked="MarcarEntregue_Clicked"/>
+
                 </VerticalStackLayout>
 
-                <Grid ColumnDefinitions="*,*" ColumnSpacing="15" Margin="0,15,0,0">
-                    <Button Grid.Column="0" Text="EDITAR PEDIDO" BackgroundColor="Gray" FontSize="16" HeightRequest="55"/>
-                    <Button Grid.Column="1" Text="FECHAR CONTA" BackgroundColor="{StaticResource Red}" FontSize="16" HeightRequest="55"/>
-                </Grid>
+            </Border>
 
-            </VerticalStackLayout>
-        </Border>
-
-        <Border StrokeShape="RoundRectangle 20"
-                BackgroundColor="White"
-                Padding="20"
-                HorizontalOptions="Fill"
-                VerticalOptions="Fill"
-                IsVisible="{Binding IsNotFinalizado}">
-
-            <VerticalStackLayout Spacing="15">
-                <Label Text="INFORMAÇÕES" FontSize="16" HorizontalOptions="Center" FontAttributes="Bold"/>
-
-                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" ColumnSpacing="20">
-                    <HorizontalStackLayout Grid.Column="0" Spacing="10" VerticalOptions="Center">
-                        <Image Source="table_icon.png" HeightRequest="24" WidthRequest="24"/>
-                        <Label Text="Mesa" FontAttributes="Bold" FontSize="16" VerticalOptions="Center"/>
-                        <Label Text="{Binding Pedido.mesaNumero, StringFormat='{0:00}'}" FontSize="16" VerticalOptions="Center"/>
-                    </HorizontalStackLayout>
-
-                    <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center" HorizontalOptions="End">
-                        <Image Source="people_icon.png" HeightRequest="24" WidthRequest="24"/>
-                        <Label Text="Clientes" FontAttributes="Bold" FontSize="16" VerticalOptions="Center"/>
-                        <Label Text="{Binding Pedido.clientes}" FontSize="16" VerticalOptions="Center"/>
-                    </HorizontalStackLayout>
-                </Grid>
-
-                <BoxView HeightRequest="1" Color="LightGray" Margin="0,5"/>
-
-                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto, Auto" ColumnSpacing="20" RowSpacing="15">
-                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding Pedido.dataAberturaPedido, StringFormat='Data: {0:dd/MM/yyyy}'}" />
-                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Pedido.dataAberturaPedido, StringFormat='Horário: {0:HH:mm}'}" HorizontalTextAlignment="End"/>
-                    <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding QuantidadeTotalItens, StringFormat='Quantidade de Itens: {0}'}" />
-                </Grid>
-
-                <BoxView HeightRequest="1" Color="LightGray" Margin="0,5"/>
-
-            </VerticalStackLayout>
-
-        </Border>
-
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 
 </ContentPage>
