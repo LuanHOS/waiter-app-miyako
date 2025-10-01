@@ -25,7 +25,6 @@ public partial class PedidoDetalhesPage : ContentPage
     {
         if (e.Parameter is ItemPedidoDetalheViewModel item)
         {
-            // Permite alterar a seleção apenas se o item não estiver entregue
             if (!item.IsEntregue)
             {
                 item.IsSelecionado = !item.IsSelecionado;
@@ -42,7 +41,21 @@ public partial class PedidoDetalhesPage : ContentPage
 
         if (confirmar)
         {
-            // A lógica para atualizar o status dos itens no backend viria aqui
+            // Lógica para marcar itens como entregues
+        }
+    }
+
+    // Novo método para o pop-up de fechar a conta
+    private async void FecharConta_Clicked(object sender, EventArgs e)
+    {
+        bool confirmar = await DisplayAlert(
+            "Fechar Conta",
+            "Deseja marcar todos os itens como entregues e fechar a conta? Esta ação não pode ser desfeita.",
+            "Sim", "Não");
+
+        if (confirmar)
+        {
+            // Lógica para fechar a conta
         }
     }
 }

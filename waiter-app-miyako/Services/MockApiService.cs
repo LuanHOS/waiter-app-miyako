@@ -83,7 +83,6 @@ namespace waiter_app_miyako.Services
                     clientes = 5,
                     mesa = new Mesas { numeroMesa = 10 },
                     funcionario = funcionario,
-                    observacao = "Sem observações.",
                     dataAberturaPedido = new DateTime(2025, 10, 01, 20, 0, 0),
                     finalizado = false,
                     itens = new List<ItensPedidos> {

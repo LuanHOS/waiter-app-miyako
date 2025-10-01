@@ -17,10 +17,11 @@ namespace waiter_app_miyako.ViewModels
                 _pedido = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsNotFinalizado));
+                OnPropertyChanged(nameof(IsFinalizado)); // Notifica a nova propriedade
                 OnPropertyChanged(nameof(ValorTotal));
                 OnPropertyChanged(nameof(QuantidadeTotalItens));
+                OnPropertyChanged(nameof(HasObservacao));
 
-                // Popula a lista de itens com o ViewModel correspondente
                 ItensDoPedido.Clear();
                 if (_pedido?.itens != null)
                 {
@@ -35,6 +36,9 @@ namespace waiter_app_miyako.ViewModels
         public ObservableCollection<ItemPedidoDetalheViewModel> ItensDoPedido { get; } = new();
 
         public bool IsNotFinalizado => Pedido?.finalizado == false;
+        public bool IsFinalizado => Pedido?.finalizado == true;
+
+        public bool HasObservacao => !string.IsNullOrWhiteSpace(Pedido?.observacao);
 
         public decimal ValorTotal => Pedido?.itens?.Sum(item => (item.produto?.preco ?? 0) * item.quantidade) ?? 0;
 
