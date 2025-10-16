@@ -1,16 +1,20 @@
-using waiter_app_miyako.ViewModels;
+﻿using waiter_app_miyako.ViewModels;
 using System.Linq;
 using waiter_app_miyako.Models;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 
 namespace waiter_app_miyako.Views
 {
+    // ✅ Corrigido o nome do parâmetro para "MesaNumero"
+    [QueryProperty(nameof(MesaNumero), "MesaNumero")]
     public partial class CardapioPage : ContentPage
     {
-        // ===== Configura��es em porcentagem (0.0 a 1.0) =====
+        // ===== Configurações em porcentagem (0.0 a 1.0) =====
         private double _minPct = 0.08;         // Minimizada
         private double _halfPct = 0.50;        // Metade da tela
-        private double _maxPct = 1.00;         // At� o topo
-        private double _snapThresholdPct = 0.07; // Limiar de "im�"
+        private double _maxPct = 1.00;         // Até o topo
+        private double _snapThresholdPct = 0.07; // Limiar de "imã"
 
         // Altura em px calculada dinamicamente a partir das porcentagens
         private double _minHeight, _halfHeight, _maxHeight, _snapThreshold;
@@ -21,22 +25,41 @@ namespace waiter_app_miyako.Views
         private enum SheetState { Minimizada, Metade, Expandida }
         private SheetState _estadoAtual = SheetState.Minimizada;
 
-        // ViewModel para gerenciar os dados do card�pio
+        // ViewModel para gerenciar os dados do cardápio
         private readonly CardapioViewModel _viewModel;
+
 
         public CardapioPage()
         {
             InitializeComponent();
             _viewModel = new CardapioViewModel();
-            this.BindingContext = _viewModel; // Define o BindingContext da p�gina
+            this.BindingContext = _viewModel; // Define o BindingContext da página
             MainGrid.SizeChanged += MainGrid_SizeChanged;
+
+        }
+
+        // ✅ Propriedade que recebe o número da mesa via rota
+        public string MesaNumero
+        {
+            set
+            {
+                if (BindingContext is CardapioViewModel vm && int.TryParse(value, out int numero))
+                {
+                    vm.MesaNumero = numero;
+                    Console.WriteLine($"✅ Mesa recebida na CardapioPage: {numero}");
+                }
+                else
+                {
+                    Console.WriteLine($"⚠️ Parâmetro MesaNumero inválido ou BindingContext nulo. Valor recebido: {value}");
+                }
+            }
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
 
-            // S� carrega os dados se a lista estiver vazia, para manter o estado do pedido
+            // Só carrega os dados se a lista estiver vazia, para manter o estado do pedido
             if (!_viewModel.CardapioAgrupado.Any())
             {
                 await _viewModel.CarregarDadosIniciais();
@@ -44,11 +67,13 @@ namespace waiter_app_miyako.Views
 
             RecalcularAncoras();
 
-            // Evita que o BottomSheet minimize ao voltar de outra p�gina se j� estava aberto
+            // Evita que o BottomSheet minimize ao voltar de outra página se já estava aberto
             if (_estadoAtual == SheetState.Minimizada)
             {
                 SnapTo(SheetState.Minimizada, animated: false);
             }
+
+            Console.WriteLine($"🧾 Mesa atual no OnAppearing: {_viewModel.MesaNumero}");
         }
 
         protected override void OnDisappearing()
@@ -90,36 +115,65 @@ namespace waiter_app_miyako.Views
 
         private async void OnItemTapped(object sender, TappedEventArgs e)
         {
-            if (e.Parameter is Models.Produtos produto)
+            if (e.Parameter is Produtos produto)
             {
-                await Navigation.PushAsync(new ItemDetalhesPage(produto, AdicionarItemAoPedido));
+                try
+                {
+                    var navParams = new Dictionary<string, object>
+            {
+                { "Produto", produto },
+                { "AdicionarCallback", (Action<Produtos, int>)AdicionarItemAoPedido },
+                { "MesaNumero", _viewModel.MesaNumero } // mantém o número da mesa
+            };
+
+                    await Shell.Current.GoToAsync(nameof(ItemDetalhesPage), navParams);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"❌ Erro ao navegar para detalhes: {ex.Message}");
+                    await DisplayAlert("Erro", "Não foi possível abrir os detalhes do produto.", "OK");
+                }
             }
         }
+        private void OnGrupoClicked(object sender, EventArgs e)
+        {
+            if (sender is Button button && button.Text is string nomeDoGrupo)
+            {
+                var groupIndex = _viewModel.CardapioAgrupado
+                    .Select((g, idx) => new { g, idx })
+                    .FirstOrDefault(x => string.Equals(x.g.NomeDoGrupo, nomeDoGrupo, StringComparison.OrdinalIgnoreCase))?.idx ?? -1;
 
+                if (groupIndex >= 0)
+                {
+                    MenuCollectionView.ScrollTo(0, groupIndex, ScrollToPosition.Start, true);
+                }
+            }
+        }
         private void AdicionarItemAoPedido(Produtos produto, int quantidade)
         {
             var itemExistente = _viewModel.ItensDoPedido.FirstOrDefault(i => i.Produto.id == produto.id);
 
             if (itemExistente != null)
-            {
                 itemExistente.Quantidade += quantidade;
-            }
             else
-            {
-                // Passa o m�todo de callback para o novo item
                 _viewModel.ItensDoPedido.Add(new ItemPedidoViewModel(produto, quantidade, OnRemoverItemRequest));
-            }
 
             SnapTo(SheetState.Minimizada);
+
+            // 🔹 Mostra feedback visual
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await Toast.Make($"{quantidade}x {produto.descricao} adicionado ao pedido!", ToastDuration.Short).Show();
+            });
         }
 
-        // M�todo que exibe o pop-up e remove o item se confirmado
+        // Método que exibe o pop-up e remove o item se confirmado
         private async void OnRemoverItemRequest(ItemPedidoViewModel itemParaRemover)
         {
             bool confirmar = await DisplayAlert(
                 "Remover Item",
                 $"Deseja remover o item '{itemParaRemover.Produto.descricao}' do pedido?",
-                "Sim", "N�o");
+                "Sim", "Não");
 
             if (confirmar)
             {
@@ -261,3 +315,4 @@ namespace waiter_app_miyako.Views
         }
     }
 }
+

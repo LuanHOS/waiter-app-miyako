@@ -1,75 +1,92 @@
-using waiter_app_miyako.Models;
+Ôªøusing waiter_app_miyako.Models;
 using waiter_app_miyako.ViewModels;
 
 namespace waiter_app_miyako.Views;
 
-[QueryProperty(nameof(Pedido), "Pedido")]
-public partial class PedidoDetalhesPage : ContentPage
+public partial class PedidoDetalhesPage : ContentPage, IQueryAttributable
 {
-    public Pedidos Pedido
-    {
-        set
-        {
-            var viewModel = (PedidoDetalhesViewModel)BindingContext;
-            viewModel.Pedido = value;
-        }
-    }
+    private PedidoDetalhesViewModel _viewModel;
 
     public PedidoDetalhesPage()
     {
         InitializeComponent();
-        BindingContext = new PedidoDetalhesViewModel();
+        _viewModel = new PedidoDetalhesViewModel();
+        BindingContext = _viewModel;
+    }
+
+    public async void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        Console.WriteLine("========== PAR√ÇMETROS RECEBIDOS ==========");
+        foreach (var kv in query)
+            Console.WriteLine($"üîπ {kv.Key} = {kv.Value}");
+        Console.WriteLine("=========================================");
+
+        // Recebe o n√∫mero da mesa
+        if (query.TryGetValue("MesaNumero", out var mesaParam)
+            && int.TryParse(mesaParam?.ToString(), out int numeroMesa))
+        {
+            Console.WriteLine($"‚úÖ Mesa recebida via par√¢metro: {numeroMesa}");
+            await _viewModel.CarregarPedidoDaMesaAsync(numeroMesa);
+        }
+        else
+        {
+            Console.WriteLine("‚ö†Ô∏è Nenhum par√¢metro MesaNumero recebido ou inv√°lido!");
+        }
+
+        // Recebe o pedido
+        if (query.TryGetValue("Pedido", out var pedidoObj) && pedidoObj is Pedidos pedido)
+        {
+            Console.WriteLine("‚úÖ Pedido recebido via par√¢metro");
+            _viewModel.Pedido = pedido;
+        }
+
+        // For√ßa atualiza√ß√£o visual
+        Dispatcher.Dispatch(() =>
+        {
+            BindingContext = null;
+            BindingContext = _viewModel;
+        });
     }
 
     private void OnItemTapped(object sender, TappedEventArgs e)
     {
         if (e.Parameter is ItemPedidoDetalheViewModel item)
         {
-            // Permite alterar a seleÁ„o apenas se o item n„o estiver entregue OU cancelado
             if (!item.IsEntregue && !item.IsCancelado)
-            {
                 item.IsSelecionado = !item.IsSelecionado;
-            }
         }
     }
 
     private async void MarcarEntregue_Clicked(object sender, EventArgs e)
     {
-        bool confirmar = await DisplayAlert(
-            "Confirmar Entrega",
-            "Deseja marcar os itens selecionados como entregues? Esta aÁ„o n„o pode ser desfeita.",
-            "Sim", "N„o");
-
+        bool confirmar = await DisplayAlert("Confirmar Entrega",
+            "Deseja marcar os itens selecionados como entregues? Esta a√ß√£o n√£o pode ser desfeita.",
+            "Sim", "N√£o");
         if (confirmar)
         {
-            // LÛgica para marcar itens como entregues
+            // l√≥gica
         }
     }
 
     private async void FecharConta_Clicked(object sender, EventArgs e)
     {
-        bool confirmar = await DisplayAlert(
-            "Fechar Conta",
-            "Deseja marcar todos os itens como entregues e fechar a conta? Esta aÁ„o n„o pode ser desfeita.",
-            "Sim", "N„o");
-
+        bool confirmar = await DisplayAlert("Fechar Conta",
+            "Deseja marcar todos os itens como entregues e fechar a conta? Esta a√ß√£o n√£o pode ser desfeita.",
+            "Sim", "N√£o");
         if (confirmar)
         {
-            // LÛgica para fechar a conta
+            // l√≥gica
         }
     }
 
-    // Novo mÈtodo para o bot„o de cancelar
     private async void MarcarCancelado_Clicked(object sender, EventArgs e)
     {
-        bool confirmar = await DisplayAlert(
-            "Confirmar Cancelamento",
-            "Deseja marcar os itens selecionados como Cancelados? Esta aÁ„o È irreversÌvel.",
-            "Sim", "N„o");
-
+        bool confirmar = await DisplayAlert("Confirmar Cancelamento",
+            "Deseja marcar os itens selecionados como cancelados? Esta a√ß√£o √© irrevers√≠vel.",
+            "Sim", "N√£o");
         if (confirmar)
         {
-            // LÛgica para marcar itens como cancelados
+            // l√≥gica
         }
     }
 }

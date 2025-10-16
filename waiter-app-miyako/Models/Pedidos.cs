@@ -1,7 +1,10 @@
-﻿namespace waiter_app_miyako.Models
+﻿using System.Text.Json.Serialization;
+
+namespace waiter_app_miyako.Models
 {
     public class Pedidos
     {
+        [JsonPropertyName("mesa")]
         public int id { get; set; }
 
         // FKs (coluna no banco é MesaNumero)

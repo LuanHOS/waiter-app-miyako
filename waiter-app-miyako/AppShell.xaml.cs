@@ -9,6 +9,7 @@ namespace waiter_app_miyako
             InitializeComponent();
 
             // Registrando as rotas para cada página
+            Routing.RegisterRoute(nameof(ItemDetalhesPage), typeof(ItemDetalhesPage));
             Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
             Routing.RegisterRoute(nameof(PedidosPage), typeof(PedidosPage));
             Routing.RegisterRoute(nameof(CardapioPage), typeof(CardapioPage));

@@ -9,6 +9,20 @@ namespace waiter_app_miyako.ViewModels
     public class PedidoDetalhesViewModel : INotifyPropertyChanged
     {
         private Pedidos _pedido;
+        private int _mesaNumero;
+        public int MesaNumero
+        {
+            get => _mesaNumero;
+            set
+            {
+                if (_mesaNumero != value)
+                {
+                    _mesaNumero = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private readonly PedidoService _pedidoService = new PedidoService();
         public Pedidos Pedido
         {
             get => _pedido;
@@ -48,6 +62,29 @@ namespace waiter_app_miyako.ViewModels
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public async Task CarregarPedidoDaMesaAsync(int numeroMesa)
+        {
+            MesaNumero = numeroMesa;
+
+            try
+            {
+                var pedido = await _pedidoService.ObterPedidoPorNumeroMesaAsync(numeroMesa);
+
+                if (pedido != null)
+                {
+                    Pedido = pedido;
+                }
+                else
+                {
+                    Console.WriteLine($"Nenhum pedido encontrado para a mesa {numeroMesa}.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao carregar pedido da mesa {numeroMesa}: {ex.Message}");
+            }
         }
     }
 }

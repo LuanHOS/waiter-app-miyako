@@ -17,14 +17,17 @@
             <Setter Property="BorderWidth" Value="2" />
             <Setter Property="BackgroundColor" Value="White" />
             <Style.Triggers>
-                <DataTrigger TargetType="Button" Binding="{Binding Status}" Value="ocupada">
+                <DataTrigger TargetType="Button" Binding="{Binding Status}" Value="PedidoEntregue">
                     <Setter Property="BackgroundColor" Value="Green" />
                 </DataTrigger>
-                <DataTrigger TargetType="Button" Binding="{Binding Status}" Value="atencao">
+                <DataTrigger TargetType="Button" Binding="{Binding Status}" Value="ComPedidoPendente">
                     <Setter Property="BackgroundColor" Value="Yellow" />
                 </DataTrigger>
-                <DataTrigger TargetType="Button" Binding="{Binding Status}" Value="reservada">
+                <DataTrigger TargetType="Button" Binding="{Binding Status}" Value="Reservada">
                     <Setter Property="BackgroundColor" Value="LightGray" />
+                </DataTrigger>
+                <DataTrigger TargetType="Button" Binding="{Binding Status}" Value="Livre">
+                    <Setter Property="BackgroundColor" Value="White" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>

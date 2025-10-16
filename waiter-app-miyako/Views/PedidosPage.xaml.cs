@@ -1,21 +1,18 @@
 using Microsoft.Maui.Controls.Shapes;
-using System.Linq;
-using System.Threading.Tasks;
-using waiter_app_miyako.Services;
-using System;
 using waiter_app_miyako.Models;
+using waiter_app_miyako.Services;
 
 namespace waiter_app_miyako.Views;
 
 public partial class PedidosPage : ContentPage
 {
-    private readonly MockApiService _apiService;
+    private readonly PedidoService _pedidoService;
     private List<Pedidos> _pedidosDeHoje;
 
     public PedidosPage()
     {
         InitializeComponent();
-        _apiService = new MockApiService();
+        _pedidoService = new PedidoService();
         _pedidosDeHoje = new List<Pedidos>();
     }
 
@@ -27,29 +24,29 @@ public partial class PedidosPage : ContentPage
 
     private async Task CarregarPedidos()
     {
-        var todosPedidosDaApi = await _apiService.FetchPedidos();
+        var todosPedidosDaApi = await _pedidoService.ObterPedidos();
 
-        var hoje = DateTime.Today;
-        _pedidosDeHoje = todosPedidosDaApi.Where(p => p.dataAberturaPedido.HasValue && p.dataAberturaPedido.Value.Date == hoje).ToList();
+        //var hoje = DateTime.Today;
+        //_pedidosDeHoje = todosPedidosDaApi.Where(p => p.dataAberturaPedido.HasValue && p.dataAberturaPedido.Value.Date == hoje).ToList();
 
-        var pedidosEmAndamento = _pedidosDeHoje.Where(p => p.finalizado == false);
-        var pedidosFinalizados = _pedidosDeHoje.Where(p => p.finalizado == true);
+        //var pedidosEmAndamento = _pedidosDeHoje.Where(p => p.finalizado == false);
+        //var pedidosFinalizados = _pedidosDeHoje.Where(p => p.finalizado == true);
 
-        EmAndamentoList.Children.Clear();
-        FinalizadosList.Children.Clear();
+        //EmAndamentoList.Children.Clear();
+        //FinalizadosList.Children.Clear();
 
-        EmAndamentoList.Add(CriarCabecalho());
-        FinalizadosList.Add(CriarCabecalho());
+        //EmAndamentoList.Add(CriarCabecalho());
+        //FinalizadosList.Add(CriarCabecalho());
 
-        foreach (var pedido in pedidosEmAndamento)
-        {
-            EmAndamentoList.Add(CriarLinhaPedido(pedido));
-        }
+        //foreach (var pedido in pedidosEmAndamento)
+        //{
+        //    EmAndamentoList.Add(CriarLinhaPedido(pedido));
+        //}
 
-        foreach (var pedido in pedidosFinalizados)
-        {
-            FinalizadosList.Add(CriarLinhaPedido(pedido));
-        }
+        //foreach (var pedido in pedidosFinalizados)
+        //{
+        //    FinalizadosList.Add(CriarLinhaPedido(pedido));
+        //}
     }
 
     private Grid CriarCabecalho()

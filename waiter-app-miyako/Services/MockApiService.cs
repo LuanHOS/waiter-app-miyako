@@ -25,36 +25,6 @@ namespace waiter_app_miyako.Services
             };
         }
 
-        // Retorna os dados das MESAS
-        public async Task<List<Mesas>> FetchMesas()
-        {
-            await Delay(500);
-            return new List<Mesas>
-            {
-                new Mesas { numeroMesa = 1, statusMesa = "atencao" },
-                new Mesas { numeroMesa = 2, statusMesa = "livre" },
-                new Mesas { numeroMesa = 3, statusMesa = "atencao" },
-                new Mesas { numeroMesa = 4, statusMesa = "livre" },
-                new Mesas { numeroMesa = 5, statusMesa = "ocupada" },
-                new Mesas { numeroMesa = 6, statusMesa = "ocupada" },
-                new Mesas { numeroMesa = 7, statusMesa = "atencao" },
-                new Mesas { numeroMesa = 8, statusMesa = "livre" },
-                new Mesas { numeroMesa = 9, statusMesa = "livre" },
-                new Mesas { numeroMesa = 10, statusMesa = "livre" },
-                new Mesas { numeroMesa = 11, statusMesa = "livre" },
-                new Mesas { numeroMesa = 12, statusMesa = "reservada" },
-                new Mesas { numeroMesa = 13, statusMesa = "livre" },
-                new Mesas { numeroMesa = 14, statusMesa = "livre" },
-                new Mesas { numeroMesa = 15, statusMesa = "livre" },
-                new Mesas { numeroMesa = 16, statusMesa = "reservada" },
-                new Mesas { numeroMesa = 17, statusMesa = "livre" },
-                new Mesas { numeroMesa = 18, statusMesa = "livre" },
-                new Mesas { numeroMesa = 19, statusMesa = "livre" },
-                new Mesas { numeroMesa = 20, statusMesa = "livre" },
-            };
-        }
-
-        // Retorna os dados dos PEDIDOS (Atualizado com os novos dados)
         public async Task<List<Pedidos>> FetchPedidos()
         {
             await Delay(700);
@@ -110,20 +80,6 @@ namespace waiter_app_miyako.Services
             return pedidos.OrderByDescending(p => p.dataAberturaPedido).ToList();
         }
 
-        // Retorna as categorias do cardápio
-        public async Task<List<Grupos>> FetchCategorias()
-        {
-            await Delay(500);
-            return new List<Grupos>
-            {
-                new Grupos { id = 1, descricao = "Barcas" },
-                new Grupos { id = 2, descricao = "Sushis" },
-                new Grupos { id = 3, descricao = "Pratos Quentes" },
-                new Grupos { id = 4, descricao = "Bebidas" },
-            };
-        }
-
-        // Retorna os produtos do cardápio (Atualizado com a nova lista)
         public async Task<List<Produtos>> FetchProdutos()
         {
             await Delay(800);
